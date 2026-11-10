@@ -4,6 +4,7 @@
 #   .\tools\release.ps1 -DryRun                      build + show notes, change nothing
 #   .\tools\release.ps1                              ComSet, HostForms_SA, Interface.exe
 #   .\tools\release.ps1 -Projects HostForms_SA       one component (tag HostForms_SA-v<ver>)
+#   .\tools\release.ps1 -Test                        test pre-release (tag v<ver>-test, not Latest)
 #
 # Steps:
 #   1. Requires a clean main.
@@ -18,6 +19,7 @@
 param(
     [string[]]$Projects = @('ComSet', 'HostForms_SA', 'Interface'),
     [switch]$DryRun,
+    [switch]$Test,    # GitHub pre-release tagged <tag>-test; never marked Latest
     [string]$Repo = 'strugz/Interface-Main-Application',
     [string]$TestedNote = 'Built from source on the VB6 build PC. Not yet tested at a site with a live analyzer.'
 )
@@ -49,7 +51,7 @@ if (-not $DryRun) {
     if ($behind -ne '0') { Fail "main is $behind commit(s) behind origin/main; pull first" }
 }
 $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'   # PS 5.1: stderr redirect + Stop throws
-$prevTag = (& git describe --tags --abbrev=0 2>$null)
+$prevTag = (& git describe --tags --abbrev=0 --exclude '*-test' 2>$null)   # last real release
 $describeExit = $LASTEXITCODE
 $ErrorActionPreference = $eap
 if ($describeExit -ne 0) { $prevTag = $null }
@@ -119,6 +121,7 @@ $files = foreach ($p in $Projects) {
 $iface = $files | Where-Object Project -eq 'Interface'
 if ($iface) { $tag = "v$($iface.Version)"; $title = "Lab-I Interface $($iface.Version)" }
 else { $first = $files[0]; $tag = "$($first.Project)-v$($first.Version)"; $title = "$($first.Project) $($first.Version)" }
+if ($Test) { $tag = "$tag-test"; $title = "$title (TEST)" }
 $summary = ($files | ForEach-Object { "$($_.Name) $($_.Version)" }) -join ', '
 
 if (& git tag --list $tag) { Fail "tag $tag already exists locally" }
@@ -132,7 +135,9 @@ $changes = & git log $range --no-merges --format='- %s' | Where-Object { $_ -not
 if (-not $changes) { $changes = @('- Rebuild only; no source changes since the previous release.') }
 
 $nl = "`r`n"
-$notes = @(
+$testBanner = @()
+if ($Test) { $testBanner = @('> **TEST RELEASE - do not install at sites.** It only checks the release process; use the release marked *Latest*.', '') }
+$notes = $testBanner + @(
     "Built from tag ``$tag`` with ``tools/release.ps1``.", '',
     '| File | Version | SHA-256 |', '|---|---|---|'
 ) + ($files | ForEach-Object { "| ``$($_.Name)`` | $($_.Version) | ``$($_.Hash)`` |" }) + @(
@@ -172,7 +177,9 @@ Invoke-Git push --quiet origin main
 Invoke-Git push --quiet origin $tag
 
 $assets = $files | ForEach-Object { $_.Path }
-& gh release create $tag @assets --repo $Repo --title $title --notes-file $notesFile --verify-tag
+$extra = @()
+if ($Test) { $extra = @('--prerelease', '--latest=false') }
+& gh release create $tag @assets --repo $Repo --title $title --notes-file $notesFile --verify-tag @extra
 if ($LASTEXITCODE -ne 0) { Fail "gh release create failed (tag $tag is pushed; rerun 'gh release create' by hand)" }
 
 # ---- 7. verify the uploads ---------------------------------------------------------

@@ -17,6 +17,10 @@ on:
         description: 'Components to build (comma separated): ComSet, HostForms_SA, HostForms_RE, Interface'
         required: true
         default: 'ComSet,HostForms_SA,Interface'
+      test:
+        description: 'Test release: publish as a pre-release tagged v<version>-test (never marked Latest; not for sites)'
+        type: boolean
+        default: false
       dry_run:
         description: 'Dry run: build and show the notes, but do not commit, tag or publish'
         type: boolean
@@ -46,13 +50,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PROJECTS: ${{ inputs.projects }}
           DRY_RUN: ${{ inputs.dry_run }}
+          TEST_RELEASE: ${{ inputs.test }}
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email '41898283+github-actions[bot]@users.noreply.github.com'
           $projects = $env:PROJECTS -split '\s*,\s*' | Where-Object { $_ }
-          if ($env:DRY_RUN -eq 'true') {
-            .\tools\release.ps1 -Projects $projects -DryRun
-          } else {
-            .\tools\release.ps1 -Projects $projects
-          }
+          $opts = @{ Projects = $projects }
+          if ($env:DRY_RUN -eq 'true') { $opts.DryRun = $true }
+          if ($env:TEST_RELEASE -eq 'true') { $opts.Test = $true }
+          .\tools\release.ps1 @opts
           exit $LASTEXITCODE
