@@ -76,13 +76,18 @@ How they fit together:
   `-Projects HostForms_SA`, and so on). The output lands in `New Lab-I System v2\`. Don't
   tag or publish anything.
 - **"Release" / "publish" / "release X for support"** means follow the
-  `.claude/skills/release` skill:
-  1. Build from a clean `main`.
-  2. Commit the `.vbp` version bumps.
-  3. Tag `v<Interface version>`, or `<Component>-v<version>` when Interface.exe
-     isn't included.
-  4. Push.
-  5. Publish a GitHub release with the built files and support-facing notes.
+  `.claude/skills/release` skill. By default it runs the **Release** GitHub Actions
+  workflow:
+  `gh workflow run release.yml -f projects="ComSet,HostForms_SA,Interface"`.
+  - The workflow runs `tools/release.ps1` on the self-hosted VB6 build PC (runner
+    `lab-i-vb6-build`, label `vb6`).
+  - That script builds from a clean `main`, commits the `.vbp` version bumps, tags
+    `v<Interface version>` (or `<Component>-v<version>`), pushes, and publishes the
+    release with support-facing notes.
+  - To build and check without publishing, use `-f dry_run=true`.
+- **The runner** lives in `%USERPROFILE%\actions-runner\lab-i` on the build PC.
+  It only works while that PC is on and `run.cmd` is running. If the runner is
+  offline, run `.\tools\release.ps1` locally instead.
 - **Support staff download releases from
   https://github.com/strugz/Interface-Main-Application/releases**, not from
   Viber or chat. Always give the user the release link when you finish.

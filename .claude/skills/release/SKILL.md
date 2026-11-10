@@ -5,98 +5,79 @@ description: Publish a Lab-I release on GitHub (strugz/Interface-Main-Applicatio
 
 # Releasing Lab-I
 
-A release is how support staff get new builds. They download them from
-https://github.com/strugz/Interface-Main-Application/releases. **Build = local
-only. Release = build + commit + tag + push + publish.** Do a release only when the
-user asks for one.
+Support staff download builds from
+https://github.com/strugz/Interface-Main-Application/releases.
 
-The repo is private, so support staff need a GitHub account added as a
-collaborator to see the Releases page. If someone can't see it, say so. Don't make
-the repo public.
+- **Build** is local only.
+- **Release** is build + commit the version bumps + tag + push + publish.
 
-## 1. Check the starting point
+Do a release only when the user asks for one. The repo is private, so support
+staff need to be added as collaborators to see it. Never make the repo public.
+
+## How a release runs
+
+Everything is in `tools/release.ps1`. The GitHub Actions workflow
+`.github/workflows/release.yml` runs that same script on the self-hosted build
+PC: runner `lab-i-vb6-build`, label `vb6`, in
+`%USERPROFILE%\actions-runner\lab-i`.
+
+The script does this:
+1. Requires a clean `main` that is up to date with `origin/main`.
+2. Downloads the last released `ComSet.dll` if `ComSet\ComSet.dll` is missing. It
+   is the binary-compatibility reference and is not in git.
+3. Builds the chosen projects with `tools\build.ps1`.
+4. Restores the COM registrations the build moved. It runs `regsvr32` elevated,
+   then checks each one.
+5. Tags the release:
+   - `v<Interface version>` when Interface.exe is included;
+   - otherwise `<Component>-v<version>`, for example `HostForms_SA-v2.0.156`.
+
+   The script stops if the tag already exists.
+6. Commits the `.vbp` bumps (`Build ...`), tags, pushes, and creates the release.
+   The release notes are written for support staff: version and hash table,
+   changes since the last tag, testing status, install steps, and what's not
+   included.
+7. Checks that each uploaded file's size matches the local build.
+
+## Default: run the workflow
+
 ```bash
-git status --short          # must be clean: commit or stash source changes first
-git switch main
-git pull --ff-only
-git describe --tags --abbrev=0   # previous release tag, used for the notes
+gh workflow run release.yml --repo strugz/Interface-Main-Application -f projects="ComSet,HostForms_SA,Interface"
+gh run list --repo strugz/Interface-Main-Application --workflow release.yml --limit 1
+gh run watch <run id> --repo strugz/Interface-Main-Application --exit-status
 ```
-- If there are uncommitted changes to source files, stop. Ask whether to commit
-  them as part of this release or leave them out.
-- Never release from a dirty tree. The binaries must match the tagged source.
 
-## 2. Pick the components
-- The default is `ComSet`, `HostForms_SA` and `Interface`. If the user names some,
-  build only those. For example, "release HostForms_SA" means `-Projects HostForms_SA`.
-- Add `HostForms_RE` only when the user asks for it.
-- Instrument plugins (`Plugins\*.dll`) are **not** released from here. They come
-  from `D:\1 Project\LIS Driver`.
+- **Choosing components.** "Release HostForms_SA" means
+  `-f projects="HostForms_SA"`. Add `HostForms_RE` only when asked.
+- **Dry run.** To check a build without publishing, add `-f dry_run=true`.
+- **Runner check.** Before triggering, confirm the runner is online:
+  `gh api repos/strugz/Interface-Main-Application/actions/runners -q '.runners[] | .name + " " + .status'`.
+  If it is offline, tell the user to start
+  `%USERPROFILE%\actions-runner\lab-i\run.cmd` on the build PC, or use the local
+  fallback below.
+- **Source changes.** The workflow builds what is on GitHub `main`. Push the
+  source changes first.
 
-## 3. Build
+## Fallback: run it locally on the build PC
+
 ```powershell
-.\tools\build.ps1 -Projects ComSet, HostForms_SA, Interface
-```
-- Every project must print `OK  v<version>`. If any fails, stop and show the log
-  lines. Never publish an old binary.
-- Record each built version from the output. VB6 has now bumped `RevisionVer` in
-  each `.vbp`.
-
-## 4. Commit and tag
-```bash
-git add -A -- '*.vbp'
-git commit -m "Build Interface 3.1.95, HostForms_SA 2.0.156, ComSet 1.0.38"  # actual built versions
-git tag -a v3.1.95 -m "Lab-I Interface 3.1.95 ..."                           # one line per component
-git push origin main
-git push origin v3.1.95
+.\tools\release.ps1 -DryRun                     # check first
+.\tools\release.ps1                             # ComSet, HostForms_SA, Interface
+.\tools\release.ps1 -Projects HostForms_SA      # one component
 ```
 
-**Tag name:**
-- If Interface.exe is in the release, the tag is `v<Interface version>`, for
-  example `v3.1.95`.
-- Otherwise use `<Component>-v<version>`, for example `HostForms_SA-v2.0.156` or
-  `ComSet-v1.0.38`.
-- If the tag already exists, stop. Don't move or overwrite tags.
+## After it finishes
 
-End the commit message with the attribution lines from the system reminder.
+- Give the user the release URL. The script prints it as `Published: ...`, and the
+  workflow summary shows it too.
+- List the versions, and say what still needs testing at a site.
+- If the log shows `WARNING: Could not restore COM registration`, tell the user to
+  run the printed `regsvr32` command as admin.
 
-## 5. Release notes (written for support staff)
-Write the notes to a temp file. They contain:
+## Never
 
-1. **Version table.** One row per file: name, version, and SHA-256 hash. Get the
-   hash with `(Get-FileHash <file> -Algorithm SHA256).Hash`.
-2. **What changed.** Plain-language bullets taken from
-   `git log <previous tag>..HEAD --no-merges`. Leave out version-bump-only
-   commits. Describe each change the way a lab user would notice it.
-3. **Testing status.** Say honestly what was tested and what wasn't. For example:
-   "Built and installed on the dev PC; not yet tested with a live analyzer."
-4. **Install / upgrade steps:**
-   1. Close Lab-I.
-   2. Back up the current files.
-   3. Copy the new files into the Lab-I folder.
-   4. From an admin prompt, register every DLL with
-      `C:\Windows\SysWOW64\regsvr32 "<Lab-I folder>\<dll>"`.
-   5. Check Help → About for the new version.
-5. **Not included:** instrument plugins (LIS Driver), HostForms_RE (unless it was
-   built), runtime prerequisites (Crystal Reports 8, OCXs, ADO, DAO), databases.
-
-## 6. Publish
-Pass only the files that were built:
-```bash
-gh release create v3.1.95 "New Lab-I System v2/Interface.exe" "New Lab-I System v2/HostForms_SA.dll" "New Lab-I System v2/ComSet.dll" --repo strugz/Interface-Main-Application --title "Lab-I Interface 3.1.95" --notes-file <notes.md> --verify-tag
-```
-Output locations:
-- `Interface.exe`, `ComSet.dll` and `HostForms_SA.dll` are in `New Lab-I System v2\`.
-- `HostForms_RE.dll` is in `HostFomrs_RE\`.
-
-**Never attach:** `.mdb` files, logs, `Passwords.txt`, `.reg` exports, or anything
-from `AppData\Data`, `ComTransLog`, `HostSpooler` or `Received`. These hold patient
-data or secrets.
-
-## 7. Verify and report
-```bash
-gh release view <tag> --repo strugz/Interface-Main-Application --json url,assets -q '.url, (.assets[] | .name+" "+(.size|tostring))'
-```
-- Each asset's size must equal the local file's size.
-- Give the user the release link. Support staff use that link instead of chat
-  attachments.
-- List the versions in the release, and say what still needs testing at a site.
+- Attach databases, logs, `Passwords.txt`, `.reg` exports, or anything from
+  `AppData\Data`, `ComTransLog`, `HostSpooler` or `Received`. These hold patient
+  data or secrets.
+- Release instrument plugins from here. They come from `D:\1 Project\LIS Driver`.
+- Move, delete or reuse an existing tag.
