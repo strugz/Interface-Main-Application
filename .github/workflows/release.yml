@@ -1,0 +1,58 @@
+# Builds Lab-I with VB6 on the self-hosted build PC and publishes a GitHub
+# release that support staff download from the Releases page.
+#
+# Start it from GitHub: Actions > Release > Run workflow, or from a terminal:
+#   gh workflow run release.yml -f projects="ComSet,HostForms_SA,Interface"
+#   gh workflow run release.yml -f dry_run=true
+#
+# The job runs on the PC that has the "vb6" runner label (Visual Basic 6,
+# Crystal Reports 8 runtime and the OCX controls installed). That PC must be on
+# and the runner started, or the job waits in the queue.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: 'Components to build (comma separated): ComSet, HostForms_SA, HostForms_RE, Interface'
+        required: true
+        default: 'ComSet,HostForms_SA,Interface'
+      dry_run:
+        description: 'Dry run: build and show the notes, but do not commit, tag or publish'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lab-i-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: [self-hosted, windows, vb6]
+    timeout-minutes: 30
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Build and publish
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECTS: ${{ inputs.projects }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898283+github-actions[bot]@users.noreply.github.com'
+          $projects = $env:PROJECTS -split '\s*,\s*' | Where-Object { $_ }
+          if ($env:DRY_RUN -eq 'true') {
+            .\tools\release.ps1 -Projects $projects -DryRun
+          } else {
+            .\tools\release.ps1 -Projects $projects
+          }
+          exit $LASTEXITCODE
