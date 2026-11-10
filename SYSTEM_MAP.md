@@ -46,12 +46,12 @@ results. It can also forward results to a hospital information system (HIS).
 | `New Lab-I System v2/` | `HostInterface.vbp` → **Interface.exe** (v3.1.x, Std EXE) | Main application: comms, parsing, storage, search, worklist, backup and licensing. Also the deployment folder: compiled DLLs, Plugins, Reports, AppData. |
 | `ComSet/` | `ComSet.vbp` → **ComSet.dll** | COM-port settings dialog and property accessors. |
 | `HostForms_SA v2/` | `HostForms_SA.vbp` → **HostForms_SA.dll** (v2.0.x) | Result entry and verification, master data (exams, profiles, normal values, physicians), Crystal report printing. |
-| `HostFomrs_RE/` | `HostForms_RE.vbp` → **HostForms_RE.dll** | Lab request entry against SQL Server stored procedures. Its own git repo. |
+| `HostFomrs_RE/` | `HostForms_RE.vbp` → **HostForms_RE.dll** | Lab request entry against SQL Server stored procedures. |
 | `HostForms_SA v2 - Copy/` | — | Stale backup of SA (only frmClassifications differs). Do not edit. |
 | `Interface/` | — | Reference data: `Laboratory.mdb`, AU test-method and conversion-factor sheets. |
 
-`New Lab-I System v2/` and `HostFomrs_RE/` are git repositories. The root folder is
-not.
+The whole folder is one git repository (private GitHub `strugz/Interface-Main-Application`).
+The older per-folder repositories are retired; see CLAUDE.md, "Repository".
 
 ---
 

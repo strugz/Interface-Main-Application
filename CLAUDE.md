@@ -6,12 +6,12 @@ architecture, data flow, databases, registry settings and known risks.
 
 ## Layout
 - `New Lab-I System v2/`: **Interface.exe** (`HostInterface.vbp`). This is the main
-  app and also the deployment folder. It is a git repo.
+  app and also the deployment folder.
 - `ComSet/`: **ComSet.dll**, the serial-port settings component.
 - `HostForms_SA v2/`: **HostForms_SA.dll**, for result entry, master data and
   Crystal reports.
 - `HostFomrs_RE/`: **HostForms_RE.dll**, for SQL Server request entry. The folder name
-  is misspelled; keep it as is. It is a git repo.
+  is misspelled; keep it as is.
 - `HostForms_SA v2 - Copy/`, `*_bak*`, `*.bak` and the `*-L-WRFABROA.vbp` /
   `*-Luis-PC.vbp` files are backups. **Never edit them.**
 - `tools/`: graphify tooling for VB6 (`graphify_vb6.py`, `build_graph.py`).
@@ -70,6 +70,12 @@ How they fit together:
         samples. Replace it with the LIS Driver build.
       - The 3.0.20 DLL inside `RapidPoint.rar`.
       - `D:\LIS\...\Host_RAPID.dll`, v1.0.27.
+
+## Repository
+- The whole folder is one git repo: private GitHub `strugz/Interface-Main-Application`, branch `main`.
+- `.gitignore` keeps out databases, analyzer logs (`ComTransLog`, `HostSpooler`, `Received`), HL7 sample messages, passwords, registry exports, compiled binaries and archives. Never force-add them: they contain patient data or secrets.
+- `.gitattributes` pins VB6 sources to CRLF and marks `.frx`/`.rpt`/`.res` as binary.
+- The old per-folder repos (GitHub `strugz/IntefaceMainApplication` for New Lab-I System v2, Bitbucket `hostforms_re`) are retired. Their `.git` folders are in `D: Project\Interface Main Application.git-backup\`.
 
 ## Rules
 - **Before editing any VB6 file, follow `.claude/skills/vb6-safe-edit`.** Files are
