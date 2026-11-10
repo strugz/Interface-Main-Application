@@ -50,6 +50,10 @@ gh run watch <run id> --repo strugz/Interface-Main-Application --exit-status
 - **Choosing components.** "Release HostForms_SA" means
   `-f projects="HostForms_SA"`. Add `HostForms_RE` only when asked.
 - **Dry run.** To check a build without publishing, add `-f dry_run=true`.
+- **Test release.** For "test release", "sample release" or "+test", add
+  `-f test=true`. That publishes a GitHub **pre-release** tagged `v<version>-test`
+  with a "do not install at sites" banner, never marked Latest. Locally, use
+  `.\tools\release.ps1 -Test`.
 - **Runner check.** Before triggering, confirm the runner is online:
   `gh api repos/strugz/Interface-Main-Application/actions/runners -q '.runners[] | .name + " " + .status'`.
   If it is offline, tell the user to start
