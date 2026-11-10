@@ -89,8 +89,16 @@ foreach ($p in $previous.Keys) {
     $old = $previous[$p]
     $new = (Resolve-Path $outputs[$p].file -ErrorAction SilentlyContinue).Path
     if ($old -and (Test-Path $old) -and $new -and ($old -ne $new)) {
-        & "$env:SystemRoot\SysWOW64\regsvr32.exe" /s "$old"
-        Write-Host "Restored COM registration of $p to $old"
+        # regsvr32 is a GUI program (PowerShell would not wait for it), and HKLM
+        # needs elevation: VB6.EXE runs as admin on the build PC, so do the same.
+        $reg = Start-Process "$env:SystemRoot\SysWOW64\regsvr32.exe" -ArgumentList '/s', "`"$old`"" -Verb RunAs -Wait -PassThru
+        if ($reg.ExitCode -eq 0 -and (Get-ComPath $outputs[$p].progid) -eq $old) {
+            Write-Host "Restored COM registration of $p to $old"
+        } else {
+            $msg = "Could not restore COM registration of $p to $old (regsvr32 exit $($reg.ExitCode)); run as admin: regsvr32 `"$old`""
+            Write-Host "WARNING: $msg" -ForegroundColor Yellow
+            if ($env:GITHUB_ACTIONS) { Write-Host "::warning::$msg" }
+        }
     }
 }
 if ($buildFailed -ne 0) { Fail "$buildFailed project(s) failed to build" }
