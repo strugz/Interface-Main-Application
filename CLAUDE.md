@@ -75,7 +75,7 @@ How they fit together:
 - The whole folder is one git repo: private GitHub `strugz/Interface-Main-Application`, branch `main`.
 - `.gitignore` keeps out databases, analyzer logs (`ComTransLog`, `HostSpooler`, `Received`), HL7 sample messages, passwords, registry exports, compiled binaries and archives. Never force-add them: they contain patient data or secrets.
 - `.gitattributes` pins VB6 sources to CRLF and marks `.frx`/`.rpt`/`.res` as binary.
-- The old per-folder repos (GitHub `strugz/IntefaceMainApplication` for New Lab-I System v2, Bitbucket `hostforms_re`) are retired. Their `.git` folders are in `D: Project\Interface Main Application.git-backup\`.
+- The old per-folder repos (GitHub `strugz/IntefaceMainApplication` for New Lab-I System v2, Bitbucket `hostforms_re`) are retired. Their `.git` folders are in `D:\1 Project\Interface Main Application.git-backup\`.
 
 ## Rules
 - **Before editing any VB6 file, follow `.claude/skills/vb6-safe-edit`.** Files are
