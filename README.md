@@ -42,13 +42,13 @@ For the architecture, data flow, databases, configuration and known issues, see
 - ActiveX controls: MSCOMM32, MSCOMCTL, MSCOMCT2, MSHFLXGD, TABCTL32, COMDLG32,
   RICHTX32, MSWINSCK.
 - ADO 2.8, DAO 3.6, Microsoft Scripting Runtime.
-- Files from outside this repo that `HostForms_SA` needs:
-  `..\..\LIS Main Application\vbGraph\` and
-  `..\..\..\..\Laboratory Management System\Components\craxdrt.dll`.
+- The Crystal Reports 8 designer runtime (`craxdrt.dll`) registered on the build PC.
+  The vbGraph control that `HostForms_SA` uses is in the repo (`HostForms_SA v2/vbGraph/`).
 
 ## Build
 
-Build the DLLs first, then the EXE:
+Run `.\tools\build.ps1` to build ComSet, HostForms_SA and Interface.exe in order
+(add `-Projects HostForms_RE` for the RE DLL). It does the same as these commands:
 
 ```powershell
 $vb6 = "C:\Program Files (x86)\Microsoft Visual Studio\VB98\VB6.EXE"

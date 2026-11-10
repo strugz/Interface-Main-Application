@@ -272,5 +272,5 @@ In short:
     - `*_bak`, `*_` and `- Copy` forms.
     - The `.gitignore` in `New Lab-I System v2` still contains unresolved
       merge-conflict markers.
-11. **External build dependencies.** The build depends on files outside the repo:
-    `..\..\LIS Main Application\vbGraph\*` and the Crystal Reports 8 runtime.
+11. **External build dependencies.** The build needs the Crystal Reports 8 runtime
+    registered on the build PC. (vbGraph is now in the repo under `HostForms_SA v2/vbGraph/`.)

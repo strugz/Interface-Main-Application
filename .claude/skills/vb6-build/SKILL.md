@@ -39,9 +39,9 @@ can still leave an older binary in place, so compare file timestamps too.
 - **Binary compatibility.** ComSet uses `CompatibleMode=1`. Keep the public interface
   of `ComSettings` and `ClassForms` stable. Changing a public method signature breaks
   late-bound callers in installed sites.
-- **References outside this repo.** HostForms_SA pulls in
-  `..\..\LIS Main Application\vbGraph\*` and
-  `..\..\..\..\Laboratory Management System\Components\craxdrt.dll`. HostForms_RE
+- **References outside this repo.** HostForms_SA needs the Crystal Reports 8 runtime
+  (`craxdrt.dll`) registered; its vbGraph control is vendored in `HostForms_SA v2/vbGraph/`.
+  Use `.\tools\build.ps1` to build ComSet, HostForms_SA and Interface.exe in order. HostForms_RE
   references Crystal Reports 8 under `C:\Program Files (x86)\Seagate Software\`.
   If these paths are missing, the build fails with "missing reference" or "file not
   found".
