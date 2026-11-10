@@ -434,6 +434,12 @@ Private Sub Form_Load()
 '        tmrAutoProcess.Interval = 0
 '    End If
     If Val(GetSetting("ComSet", "Settings", "LogTrans", "0")) = 1 Then blnLogTrans = True
+    'isConnected is False when SetComm failed and already unloaded this form:
+    'touching Winsock1 or the display then would load the form again.
+    If MiddlewareMode And isConnected Then
+        OutboxStart Winsock1
+        displayresults "Middleware mode: results are forwarded to the LIS/HIS. Type OUTBOX in the console for status."
+    End If
 End Sub
 
 Private Sub Form_Resize()
@@ -478,6 +484,7 @@ If AutoUnload = False Then
     End If
 Else
 End If
+If Cancel = 0 Then OutboxStop
 End Sub
 
 Private Sub SetComm()
@@ -1196,7 +1203,9 @@ If isDBconnected Then
                     displayresults ObjDTP.ErrorDesc
                 End If
             End If
-            If Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
+            If MiddlewareMode Then
+                QueueForMiddleware tMess, False
+            ElseIf Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
                 If Val(GetSetting("LAB-i", "HL7 Settings", "AutoWriteResult", 0)) = 1 Then
                     WriteToFile HL7_ORU(tMess, rstExam2), GetSetting("LAB-i", "HL7 Settings", "FWDIR", App.Path & "\HostSpooler")
                 End If
@@ -1222,12 +1231,14 @@ If isDBconnected Then
                     displayresults ObjDTP.ErrorDesc
                 End If
             End If
-            If Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
+            If MiddlewareMode Then
+                QueueForMiddleware tMess, True
+            ElseIf Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
                 If Val(GetSetting("LAB-i", "HL7 Settings", "AutoWriteResult", 0)) = 1 Then
                     WriteToFile HL7_ORU(tMess, rstExam2), GetSetting("LAB-i", "HL7 Settings", "FWDIR", App.Path & "\HostSpooler")
                 End If
             End If
-       
+
         
         Else
             eConnection.Execute "Insert Into LabUnprocessed (ResultData, InstrumentID) select '" & Replace(tMess, "'", "''") & "','" & InstrumentID & "'"
@@ -1241,7 +1252,9 @@ If isDBconnected Then
                     displayresults ObjDTP.ErrorDesc
                 End If
             End If
-            If Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
+            If MiddlewareMode Then
+                QueueForMiddleware tMess, False
+            ElseIf Val(GetSetting("Lab-I", "HL7", "Enable", "0")) = 1 Then
                 If Val(GetSetting("LAB-i", "HL7 Settings", "AutoWriteResult", 0)) = 1 Then
                     WriteToFile HL7_ORU(tMess, rstExam2), GetSetting("LAB-i", "HL7 Settings", "FWDIR", App.Path & "\HostSpooler")
                 End If
@@ -1250,7 +1263,40 @@ If isDBconnected Then
     End If
 Else
     displayresults "No Connection to Database"
+    If MiddlewareMode Then
+        'no test code map without the database: keep the raw message instead of sending unmapped codes
+        OutboxSaveUnqueued tMess, "Database not connected"
+        displayresults "Outbox: result NOT forwarded (no database). Raw message kept in " & OutboxRoot & "\unqueued"
+    End If
 End If
+End Sub
+
+'Middleware mode: build the HL7 result message(s) from the plugin contract fields and put
+'them in the outbox (modOutbox). Never raises: a message that cannot be queued is kept in
+'<Outbox>\unqueued\ so it is not lost.
+Private Sub QueueForMiddleware(tMess As String, isSTKS As Boolean)
+Dim mOBX As String
+Dim mORI As String
+Dim mResult As String
+On Error GoTo errFound
+    If isSTKS Then
+        mOBX = segment_OBX2(tMess, rstExam2)
+        mORI = get_OtherResultInfo(tMess, 1)
+    Else
+        mOBX = MsgDef.segment_OBX(tMess)
+        mORI = MsgDef.segment_oBI(tMess)
+    End If
+    mResult = OutboxEnqueueResult(mOBX, mORI)
+    If Len(mResult) > 0 Then displayresults mResult
+    Exit Sub
+errFound:
+    displayresults "Outbox: result NOT queued (" & Err.Description & "). Raw message kept in " & OutboxRoot & "\unqueued"
+    OutboxSaveUnqueued tMess, "Not queued: " & Err.Description
+End Sub
+
+'Called by modOutbox to report delivery problems in the receive window.
+Public Sub OutboxNotify(ByVal mText As String)
+    displayresults mText
 End Sub
 
 Private Sub rtbRcvDisplay_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1302,6 +1348,8 @@ Select Case mCommand
             displayresults "CONFIG"
             displayresults "SETTINGS"
             displayresults "LOOPBACK"
+            displayresults "OUTBOX"
+            displayresults "RESEND [HL7TCP|HL7FILE]"
             displayresults ""
     Case "CONFIG"
         For ctr = 1 To 4
@@ -1324,6 +1372,8 @@ Select Case mCommand
     Case "SETTINGS"
         displayresults "Diff Count Total: " & GetSetting("Lab-I", "Settings", "DiffCount", "1")
         displayresults "Database: " & DBDatabase
+    Case "OUTBOX"
+        displayresults OutboxStatusText
     Case "LOOPBACK"
         If LoopBack Then
             LoopBack = False
@@ -1345,6 +1395,8 @@ Select Case mCommand
                 eConnection.Execute "Insert Into tbLabReportNames (rptName, rptDefault) Select '" & Trim(getStringData(mCommand, "ADDREPORT", "")) & "',False"
                 displayresults "Added " & Trim(getStringData(mCommand, "ADDREPORT", ""))
             End If
+        ElseIf Mid(mCommand, 1, 6) = "RESEND" Then
+            displayresults "Outbox: " & OutboxResend(Trim(Mid(mCommand, 7))) & " failed message(s) moved back to pending."
         ElseIf Mid(mCommand, 1, 4) = "SEND" Then
             mdiMain.wsBroadcast.SendData getStringData(mCommand, "SEND", "")
         Else
@@ -1461,6 +1513,7 @@ End Sub
 Private Sub tmrStatus_Timer()
 DoEvents
     checkComStatus
+    If MiddlewareMode Then OutboxPump
     If Val(GetSetting("Lab-I", "Settings", "Autoprint", "0")) = 1 Then tmrAutoPrint.Interval = 1000 Else tmrAutoPrint.Interval = 1000
 End Sub
 

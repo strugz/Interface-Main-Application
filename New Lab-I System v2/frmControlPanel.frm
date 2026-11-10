@@ -222,6 +222,7 @@ With lvwItems
     .ListItems.Add 1, "labexam", "12 - Laboratory Exams", "labexams"
     .ListItems.Add 1, "reportformats", "05 - Report Formats", "reportformat"
     .ListItems.Add 1, "hospitalprofile", "08 - Hospital Profile", "hospital"
+    .ListItems.Add 1, "middleware", "17 - Middleware (LIS/HIS)", "comset"
     If isConnected Then
         .ListItems("comset").Ghosted = True
         .ListItems("labexam").Ghosted = True
@@ -286,6 +287,9 @@ If Not lvwItems.SelectedItem.Ghosted Then
             mComSet.showsettings
         Case "selectionlists"
             HostSA.showSelectionLists
+        Case "middleware"
+            Unload Me                       'a mode switch restarts Lab-I, so close this panel first
+            mdiMain.ShowMiddlewareSettings
         Case "reportformats"
             HostSA.showReportFormats
             setResultReport

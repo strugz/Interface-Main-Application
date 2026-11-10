@@ -122,6 +122,13 @@ Analyzer ──RS-232──▶ mscMain(n)_OnComm (frmReceiveData ~550)
           └─▶ LabTempPrint → HostSA.ResultAutoPrint    (if Autoprint)
 ```
 
+**Middleware mode** (`Lab-I\Middleware\Enable=1`, branch `feature/middleware-mode`).
+`processData` also calls `QueueForMiddleware`, which hands the result to
+`modOutbox`. That module builds HL7 ORU messages and keeps a file spool
+(`Outbox\<dest>\pending|sent|failed`). It delivers over MLLP (`clsMLLPClient`) or
+as files, with retries. It replaces the inline `HL7_ORU` file write. See
+`docs/MIDDLEWARE_MODE.md`.
+
 **Orders (host query / bidirectional):**
 
 ```
