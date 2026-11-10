@@ -71,6 +71,26 @@ How they fit together:
       - The 3.0.20 DLL inside `RapidPoint.rar`.
       - `D:\LIS\...\Host_RAPID.dll`, v1.0.27.
 
+## Build and release
+- **"Build X"** means compile locally and stop. Run `.\tools\build.ps1` (or
+  `-Projects HostForms_SA`, and so on). The output lands in `New Lab-I System v2\`. Don't
+  tag or publish anything.
+- **"Release" / "publish" / "release X for support"** means follow the
+  `.claude/skills/release` skill:
+  1. Build from a clean `main`.
+  2. Commit the `.vbp` version bumps.
+  3. Tag `v<Interface version>`, or `<Component>-v<version>` when Interface.exe
+     isn't included.
+  4. Push.
+  5. Publish a GitHub release with the built files and support-facing notes.
+- **Support staff download releases from
+  https://github.com/strugz/Interface-Main-Application/releases**, not from
+  Viber or chat. Always give the user the release link when you finish.
+- **What a release contains.** Releases contain only `Interface.exe`,
+  `HostForms_SA.dll`, `ComSet.dll` (and `HostForms_RE.dll` when asked).
+  - Instrument plugins are released from LIS Driver.
+  - Never attach databases, logs, `.reg` exports or `Passwords.txt`.
+
 ## Repository
 - The whole folder is one git repo: private GitHub `strugz/Interface-Main-Application`, branch `main`.
 - `.gitignore` keeps out databases, analyzer logs (`ComTransLog`, `HostSpooler`, `Received`), HL7 sample messages, passwords, registry exports, compiled binaries and archives. Never force-add them: they contain patient data or secrets.
