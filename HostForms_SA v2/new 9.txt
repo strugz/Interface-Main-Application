@@ -1,0 +1,324 @@
+﻿If InStr(1, Message(portIndex), Chr(2)) > 0 Then
+    lblStatus.Caption = "Receiving Data..."
+'    If MessageFormat = "ASTM1394" Then sendAck portIndex
+    If InStr(1, Message(portIndex), Chr(3)) > 0 Then
+        Select Case MessageFormat
+            Case "STKS"
+                If InStr(1, Message(portIndex), Chr(2) & "01") > 0 Then
+                    TMessage(portIndex) = PartMessage(Message(portIndex))
+                    TotalMsgCount(portIndex) = Val(Mid(Message(portIndex), InStr(1, Message(portIndex), Chr(2) & "01") - 2, 2))
+                    MsgCount(portIndex) = 1
+                    AllMessage(portIndex) = TMessage(portIndex)
+                    Message(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), Chr(3)) + 1)
+                Else
+                    'MsgCount(portIndex) = Val(Mid(Message(portIndex), InStr(1, Message(portIndex), Chr(2)) + 1, 2))
+                    If MsgCount(portIndex) > 0 Then
+                        MsgCount(portIndex) = Val(Mid(Message(portIndex), InStr(1, Message(portIndex), Chr(2)) + 1, 2))
+                        TMessage(portIndex) = PartMessage(Message(portIndex))
+                        rtbRcvDisplay.SelStart = Len(rtbRcvDisplay.Text)
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        If TotalMsgCount(portIndex) = MsgCount(portIndex) Then
+'                            mscMain.DTREnable = False
+'                            mscMain.RTSEnable = False
+                            processData AllMessage(portIndex)
+                            AllMessage(portIndex) = ""
+                            TMessage(portIndex) = ""
+                            MsgCount(portIndex) = 1
+                            TotalMsgCount(portIndex) = 1
+                            lblStatus.Caption = "Ready to receive data..."
+                            ProcessedResult = True
+'                            mscMain.RTSEnable = True
+'                            mscMain.DTREnable = True
+                        End If
+                        Message(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), Chr(3)) + 1)
+                    End If
+                End If
+            Case "ASTM"
+                If InStr(Len(Message(portIndex)) - 1, Message(portIndex), vbLf) > 0 Then
+                    If getASTMmsgType(Message(portIndex)) = "H" Then
+                        If Len(Trim(AllMessage(portIndex))) = 0 Then
+                            TMessage(portIndex) = ""
+                            AllMessage(portIndex) = Message(portIndex)
+                            Message(portIndex) = ""
+                            Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                                'wait 3 sec.
+                            Loop
+                            sendAck portIndex
+                        Else
+                            TMessage(portIndex) = Message(portIndex)
+                            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                            processData AllMessage(portIndex)
+                            AllMessage(portIndex) = ""
+                            TMessage(portIndex) = ""
+                            Message(portIndex) = ""
+                            Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                                'wait 3 sec.
+                            Loop
+                            sendAck portIndex
+                        End If
+                    ElseIf getASTMmsgType(Message(portIndex)) = "L" Then
+                        TMessage(portIndex) = Message(portIndex)
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        processData AllMessage(portIndex)
+                        AllMessage(portIndex) = ""
+                        TMessage(portIndex) = ""
+                        Message(portIndex) = ""
+                        Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                            'wait 3 sec.
+                        Loop
+                        sendAck portIndex
+                        ProcessedResult = True
+                    Else
+                        TMessage(portIndex) = Message(portIndex)
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        Message(portIndex) = ""
+                        Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                            'wait 3 sec.
+                        Loop
+                        sendAck portIndex
+                    End If
+                End If
+            Case "ASTM2"
+                If InStr(Len(Message(portIndex)) - 1, Message(portIndex), vbLf) > 0 Then
+                    If getASTMmsgType(Message(portIndex)) = "H" Then
+                        If Len(Trim(AllMessage(portIndex))) = 0 Then
+                            TMessage(portIndex) = ""
+                            AllMessage(portIndex) = Message(portIndex)
+                            Message(portIndex) = ""
+                            Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                                'wait 3 sec.
+                            Loop
+                            sendAck portIndex
+                        Else
+                            TMessage(portIndex) = Message(portIndex)
+                            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                            processData AllMessage(portIndex)
+                            AllMessage(portIndex) = ""
+                            TMessage(portIndex) = ""
+                            Message(portIndex) = ""
+                            Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                                'wait 3 sec.
+                            Loop
+                            sendAck portIndex
+                        End If
+                    ElseIf getASTMmsgType(Message(portIndex)) = "L" Then
+                        TMessage(portIndex) = Message(portIndex)
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        processData AllMessage(portIndex)
+                        AllMessage(portIndex) = ""
+                        TMessage(portIndex) = ""
+                        Message(portIndex) = ""
+                        Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                            'wait 3 sec.
+                        Loop
+                        sendAck portIndex
+                    Else
+                        TMessage(portIndex) = Message(portIndex)
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        Message(portIndex) = ""
+                        Do While DateDiff("s", dateStart(portIndex), Now) <= 2
+                            'wait 3 sec.
+                        Loop
+                        sendAck portIndex
+                    End If
+                End If
+            Case "ILABBG"
+                TMessage(portIndex) = Message(portIndex)
+                AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                If InStr(1, AllMessage(portIndex), Chr(2) & "06") Then
+                    processData AllMessage(portIndex)
+                    AllMessage(portIndex) = ""
+                End If
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+            Case "ASYNC"
+                TMessage(portIndex) = Message(portIndex)
+                Select Case MsgDef.Flags(2, TMessage(portIndex))
+                    Case "RS"
+                        AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                        If InStr(1, AllMessage(portIndex), Chr(3)) Then
+                            processData AllMessage(portIndex)
+                        End If
+                    Case "DTE"
+                        processData AllMessage(portIndex)
+                        AllMessage(portIndex) = ""
+                    Case ""
+                        Debug.Print TMessage(portIndex)
+                    Case Else
+                        Debug.Print MsgDef.Flags(2, TMessage(portIndex))
+                End Select
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+            Case "STXETX1"
+                lblStatus.Caption = "Receiving Data..."
+                TMessage(portIndex) = Message(portIndex)
+                AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                processData AllMessage(portIndex)
+                AllMessage(portIndex) = ""
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+            Case "ASTM1394"
+                TMessage(portIndex) = Message(portIndex)
+                AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                processData AllMessage(portIndex)
+                AllMessage(portIndex) = ""
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+        End Select
+    End If
+End If
+
+
+If MessageFormat = "ACTDIFF" Then
+    lblStatus.Caption = "Receiving Data..."
+    If InStr(1, Message(portIndex), vbCrLf) > 0 Then
+        If getAcTmsgType(Message(portIndex)) = "H" Then
+            If Len(Trim(AllMessage(portIndex))) = 0 Then
+                TMessage(portIndex) = ""
+                AllMessage(portIndex) = Message(portIndex)
+                Message(portIndex) = ""
+                sendAck portIndex
+            Else
+                TMessage(portIndex) = Message(portIndex)
+                AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                processData AllMessage(portIndex)
+                lblStatus.Caption = "Ready to receive data..."
+                AllMessage(portIndex) = ""
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+                sendAck portIndex
+            End If
+        ElseIf getAcTmsgType(Message(portIndex)) = "L" Then
+            TMessage(portIndex) = Message(portIndex)
+            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+            processData AllMessage(portIndex)
+            lblStatus.Caption = "Ready to receive data..."
+            AllMessage(portIndex) = ""
+            TMessage(portIndex) = ""
+            Message(portIndex) = ""
+            sendAck portIndex
+        Else
+            TMessage(portIndex) = Message(portIndex)
+            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+            Message(portIndex) = ""
+            sendAck portIndex
+        End If
+    End If
+End If
+If MessageFormat = "CXSYS" Or MessageFormat = "LXSYS" Then
+    lblStatus.Caption = "Receiving Data..."
+    If InStr(1, Message(portIndex), "[") > 0 Then
+        If InStr(1, Message(portIndex), "]") > 0 Then
+            Select Case getCXSYSmsgType(Message(portIndex))
+                Case "H"
+                    AllMessage(portIndex) = ""
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex) & vbCrLf
+                    Message(portIndex) = ""
+                    HasHeader = True
+                Case "R"
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex) & vbCrLf
+                    Message(portIndex) = ""
+                Case "RS"
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex) & vbCrLf
+                    Message(portIndex) = ""
+                Case "TU"
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex) & vbCrLf
+                    Message(portIndex) = ""
+                Case "T"
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                    If HasHeader Then processData AllMessage(portIndex)
+                    AllMessage(portIndex) = ""
+                    TMessage(portIndex) = ""
+                    Message(portIndex) = ""
+                    HasHeader = False
+                    lblStatus.Caption = "Ready to receive data..."
+                Case Else
+                    TMessage(portIndex) = Mid(Message(portIndex), InStr(1, Message(portIndex), "["), InStr(1, Message(portIndex), "]") + 1)
+                    AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex) & vbCrLf
+                    Message(portIndex) = ""
+            End Select
+        End If
+    End If
+End If
+If MessageFormat = "ILP" Then
+    lblStatus.Caption = "Receiving Data..."
+    If WaitCheckSum Then
+        If Len(Message(portIndex)) = 2 Then
+            TMessage(portIndex) = TMessage(portIndex) & Message(portIndex) & vbCrLf
+            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+            dateStart(portIndex) = Now
+            Do While DateDiff("s", dateStart(portIndex), Now) <= 5
+                'wait 3 sec.
+            Loop
+            mscMain(portIndex).Output = AckStr
+            TMessage(portIndex) = ""
+            Message(portIndex) = ""
+            WaitCheckSum = False
+            If ProcessNow Then
+                processData AllMessage(portIndex)
+                ProcessNow = False
+            End If
+        End If
+    End If
+    If InStr(1, Message(portIndex), vbCrLf) > 0 Then
+        If Mid(Message(portIndex), 1, 1) = ":" Then
+            WaitCheckSum = False
+            TMessage(portIndex) = ""
+            TMessage(portIndex) = TMessage(portIndex) & Message(portIndex)
+            AckStr = "!" & Mid(Message(portIndex), 2, 4)
+            Message(portIndex) = ""
+            ProcessNow = False
+        Else
+            If LastMessage = "" Then
+                LastMessage = String(4 - Len(Trim(Str(Val("&H" & Mid(Message(portIndex), 1, 2)) - 1))), "0") & Trim(Str(Val("&H" & Mid(Message(portIndex), 1, 2)) - 1))
+            End If
+            TMessage(portIndex) = TMessage(portIndex) & Message(portIndex)
+            If Left(Right(Message(portIndex), 4), 2) = "21" Then ProcessNow = True
+            Message(portIndex) = ""
+            WaitCheckSum = True
+        End If
+    End If
+End If
+If MessageFormat = "ILP2" Then
+    lblStatus.Caption = "Receiving Data..."
+    If InStr(1, Message(portIndex), vbCrLf) > 0 Then
+        If getAcTmsgType(Message(portIndex)) = "H" Then
+            If Len(Trim(AllMessage(portIndex))) = 0 Then
+                TMessage(portIndex) = ""
+                AllMessage(portIndex) = Message(portIndex)
+                Message(portIndex) = ""
+                sendAck portIndex
+            Else
+                TMessage(portIndex) = Message(portIndex)
+                AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+                processData AllMessage(portIndex)
+                lblStatus.Caption = "Ready to receive data..."
+                AllMessage(portIndex) = ""
+                TMessage(portIndex) = ""
+                Message(portIndex) = ""
+                sendAck portIndex
+            End If
+        ElseIf getAcTmsgType(Message(portIndex)) = "L" Then
+            TMessage(portIndex) = Message(portIndex)
+            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+            processData AllMessage(portIndex)
+            lblStatus.Caption = "Ready to receive data..."
+            AllMessage(portIndex) = ""
+            TMessage(portIndex) = ""
+            Message(portIndex) = ""
+            sendAck portIndex
+        Else
+            TMessage(portIndex) = Message(portIndex)
+            AllMessage(portIndex) = AllMessage(portIndex) & TMessage(portIndex)
+            Message(portIndex) = ""
+            sendAck portIndex
+        End If
+    End If
+
+End If
+

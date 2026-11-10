@@ -1,0 +1,14 @@
+Delete from tbpatientmaster
+delete from tbPatientValues
+delete from tbLabInstrumentResults
+delete from tbLabInstrumentRValues
+delete from tbCoLabExam
+delete from tbLabClassifications
+delete from tbLabClassExams
+delete from tbLabProfiles
+delete from tbLabProfileExams
+delete from tbHospitalInfo
+delete from tbLabPathologists
+delete from tbPhysician
+delete from tbMedtech
+        

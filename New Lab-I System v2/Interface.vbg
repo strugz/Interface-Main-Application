@@ -1,0 +1,12 @@
+VBGROUP 5.0
+StartupProject=HostInterface.vbp
+Project=..\ComSet\ComSet.vbp
+Project=..\HostForms_SA v2\HostForms_SA.vbp
+Project=..\Host_ASTM\Host_ASTM.vbp
+Project=..\Host_GEM3500\Host_GEM3500.vbp
+Project=..\VS_CGH\VS_CGH.vbp
+Project=..\VS_OMMC2\VS_OMMC2.vbp
+Project=..\VS_VCHO\VS_VCHO.vbp
+Project=..\Host_LXSYS\Host_LXSYS.vbp
+Project=..\Host_GEM4000\Host_GEM4000.vbp
+Project=..\DTP_OPENMRS\DTP_OPENMRS.vbp

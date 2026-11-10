@@ -1,0 +1,3 @@
+VBGROUP 5.0
+StartupProject=..\New Lab-I System\HostInterface.vbp
+Project=HostForms_SA.vbp

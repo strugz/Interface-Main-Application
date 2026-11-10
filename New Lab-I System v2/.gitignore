@@ -1,0 +1,13 @@
+# Ignore Access database files
+*.mdb
+
+# Ignore compiled binaries
+*.exe
+*.dll
+*.ocx
+
+# Ignore temporary files
+*.log
+*.tmp
+*.vbw
+*.bak

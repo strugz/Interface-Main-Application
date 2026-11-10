@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------
+# Lab-I Interface: source only. No patient data, no secrets,
+# no compiled binaries.
+# ---------------------------------------------------------------
+
+# Patient data and databases (never commit)
+*.mdb
+*.ldb
+*.laccdb
+*.accdb
+AppData/Data/
+**/ComTransLog/
+**/HostSpooler/
+**/Received/
+**/DailyBackUp/
+New Lab-I System v2/rawt.txt
+New Lab-I System v2/receivedata.txt
+
+# Secrets and machine-specific settings
+Passwords.txt
+*.reg
+Laboratory.dat
+*.dat
+
+# Compiled binaries and build by-products (rebuild from source)
+*.dll
+*.DLL
+*.exe
+*.EXE
+*.ocx
+*.OCX
+*.oca
+*.dep
+*.DEP
+*.srg
+*.SRG
+*.tlb
+*.TLB
+*.lib
+*.exp
+*.CAB
+*.Lst
+*.LST
+*.DDF
+*.PDM
+build.log
+
+# Archives and backups
+*.zip
+*.rar
+*.7z
+*.bak
+*.tmp
+*.lit
+*_bak.frm
+*_bak.frx
+HostForms_SA v2 - Copy/
+
+# VB6 IDE / source-control leftovers
+*.vbw
+*.log
+*.scc
+*.SCC
+mssccprj.scc
+MSSCCPRJ.SCC
+vssver.scc
+
+# Windows
+desktop.ini
+Thumbs.db
+*.lnk
+
+# graphify: keep the graph and report, not the cache or local paths
+graphify-out/cache/
+graphify-out/.graphify_*
+graphify-out/**/*.tmp
+
+# Sample captures, HL7 messages and printed reports can hold patient details
+New Lab-I System v2/SampleText.text
+New Lab-I System v2/SampleText.txt
+*.omg
+*.oxps
+*.$efs
