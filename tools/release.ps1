@@ -13,7 +13,8 @@
 #   4. Tags v<Interface version>, or <Component>-v<version> when Interface.exe is
 #      not included.
 #   5. Pushes.
-#   6. Creates the GitHub release with the built files and support-facing notes.
+#   6. Creates the GitHub release with the built files (Interface.exe zipped as
+#      Interface-<version>.zip) and support-facing notes.
 #
 # Also used by .github/workflows/release.yml on the self-hosted VB6 runner.
 param(
@@ -117,6 +118,22 @@ $files = foreach ($p in $Projects) {
     }
 }
 
+# .exe files go up zipped (Interface-<version>.zip); DLLs go up as they are.
+$zipDir = Join-Path $env:TEMP 'lab-i-release-zip'
+if (-not (Test-Path $zipDir)) { New-Item -ItemType Directory -Path $zipDir | Out-Null }
+foreach ($f in $files) {
+    if ($f.Name -like '*.exe') {
+        $zip = Join-Path $zipDir "$([IO.Path]::GetFileNameWithoutExtension($f.Name))-$($f.Version).zip"
+        Compress-Archive -Path $f.Path -DestinationPath $zip -Force
+        $f | Add-Member AssetPath $zip
+    } else {
+        $f | Add-Member AssetPath $f.Path
+    }
+    $a = Get-Item $f.AssetPath
+    $f | Add-Member AssetName $a.Name
+    $f | Add-Member AssetSize $a.Length
+}
+
 # ---- 5. tag name and notes ------------------------------------------------------
 $iface = $files | Where-Object Project -eq 'Interface'
 if ($iface) { $tag = "v$($iface.Version)"; $title = "Lab-I Interface $($iface.Version)" }
@@ -146,7 +163,7 @@ $notes = $testBanner + @(
     '', '## Testing', '', $TestedNote, '',
     '## Install / upgrade', '',
     '1. Close Lab-I and back up the files you are replacing in the Lab-I folder.',
-    '2. Copy the downloaded files into the Lab-I folder.',
+    '2. Copy the downloaded files into the Lab-I folder. Extract `Interface.exe` from its `.zip` first.',
     '3. From an **administrator** prompt, register each DLL with the 32-bit regsvr32:', '   ```'
 ) + ($files | Where-Object { $_.Name -like '*.dll' } | ForEach-Object { "   C:\Windows\SysWOW64\regsvr32 ""<Lab-I folder>\$($_.Name)""" }) + @(
     '   ```',
@@ -176,7 +193,7 @@ Invoke-Git tag -a $tag -m "$title" -m "$summary"
 Invoke-Git push --quiet origin main
 Invoke-Git push --quiet origin $tag
 
-$assets = $files | ForEach-Object { $_.Path }
+$assets = $files | ForEach-Object { $_.AssetPath }
 $extra = @()
 if ($Test) { $extra = @('--prerelease', '--latest=false') }
 & gh release create $tag @assets --repo $Repo --title $title --notes-file $notesFile --verify-tag @extra
@@ -185,8 +202,8 @@ if ($LASTEXITCODE -ne 0) { Fail "gh release create failed (tag $tag is pushed; r
 # ---- 7. verify the uploads ---------------------------------------------------------
 $remote = & gh release view $tag --repo $Repo --json assets,url | ConvertFrom-Json
 foreach ($f in $files) {
-    $a = $remote.assets | Where-Object name -eq $f.Name
-    if (-not $a -or $a.size -ne $f.Size) { Fail "uploaded $($f.Name) does not match the local build" }
+    $a = $remote.assets | Where-Object name -eq $f.AssetName
+    if (-not $a -or $a.size -ne $f.AssetSize) { Fail "uploaded $($f.AssetName) does not match the local build" }
 }
 Write-Host ''
 Write-Host "Published: $($remote.url)" -ForegroundColor Green

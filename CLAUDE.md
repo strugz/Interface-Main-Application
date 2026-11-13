@@ -91,8 +91,9 @@ How they fit together:
 - **Support staff download releases from
   https://github.com/strugz/Interface-Main-Application/releases**, not from
   Viber or chat. Always give the user the release link when you finish.
-- **What a release contains.** Releases contain only `Interface.exe`,
-  `HostForms_SA.dll`, `ComSet.dll` (and `HostForms_RE.dll` when asked).
+- **What a release contains.** Releases contain only `Interface.exe` (zipped as
+  `Interface-<version>.zip`), `HostForms_SA.dll`, `ComSet.dll` (and
+  `HostForms_RE.dll` when asked).
   - Instrument plugins are released from LIS Driver.
   - Never attach databases, logs, `.reg` exports or `Passwords.txt`.
 

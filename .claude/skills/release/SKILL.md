@@ -34,10 +34,13 @@ The script does this:
 
    The script stops if the tag already exists.
 6. Commits the `.vbp` bumps (`Build ...`), tags, pushes, and creates the release.
+   `Interface.exe` is uploaded zipped as `Interface-<version>.zip`; the DLLs
+   are uploaded as they are. The hash in the notes is the `.exe`'s, not the zip's.
    The release notes are written for support staff: version and hash table,
    changes since the last tag, testing status, install steps, and what's not
    included.
-7. Checks that each uploaded file's size matches the local build.
+7. Checks that each uploaded file's size (the zip, for Interface.exe) matches the
+   local build.
 
 ## Default: run the workflow
 
