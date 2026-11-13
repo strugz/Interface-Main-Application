@@ -1,114 +1,121 @@
 # Graph Report - Interface Main Application  (2026-11-10)
 
 ## Corpus Check
-- 93 files · ~0 words
+- 104 files · ~0 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1690 nodes · 3058 edges · 90 communities (86 shown, 4 thin omitted)
-- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 231 edges (avg confidence: 0.85)
+- 1888 nodes · 3523 edges · 97 communities (94 shown, 3 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 234 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
 - SA: Result Entry
-- SA: Rpt Export
-- SA: Lab Profile Exams
+- Interface: Outbox
 - RE: Edit Request
 - RE: Wards Rooms
 - SA: Normal Values
 - ComSet: Com Settings
+- Interface: Base64
 - SA: JSON
 - Interface: Receive Data
 - Interface: Request
 - SA: Lab Exam
 - Interface: Main
-- SA: Form Settings
-- Interface: OBISetiings
+- SA: Class Forms
+- SA: Graph
 - Interface: Settings
-- Interface: Search Result
-- SA: Report Formats
-- Interface: Db Man
+- SA: Lab Profile Exams
+- Interface: OBISetiings
 - Interface: Registration
+- SA: Functions
 - Interface: Main (2)
+- SA: Report Formats
+- Interface: Main (3)
+- Interface: Search Result
 - RE: Search Request
+- SA: Result Entry (2)
 - Interface: Search
 - RE: Blowfish
 - RE: Request Setting
-- SA: PIDsearch
+- SA: Points
 - Interface: Blowfish
-- SA: Result Entry (2)
+- SA: PIDsearch
 - SA: Result Entry (3)
-- RE: Selection
-- RE: Class Main
-- SA: Lab Profiles
-- Interface: Main (3)
 - Interface: Work List
+- RE: Selection
+- SA: Lab Profiles
+- SA: Datasets
+- RE: Class Main
+- Shared: Data Base Copy
+- Interface: Main (4)
 - RE: Class Forms
 - RE: Exam Selection
-- SA: Worklist Report
+- SA: Dataset
+- Interface: MLLPClient
 - Interface: DBsettings
 - RE: Edit Request (2)
 - SA: Input Box
-- SA: Result Entry (4)
-- Interface: Plug In Test
-- Shared: Logbook
 - RE: Del Req
-- SA: Class Forms
+- SA: Logbook
 - SA: Print Copies
+- SA: Selection Lists
+- SA: Rpt Export
 - Interface: License Manager
 - Interface: Check
-- SA: Rem Template
 - SA: Pathologist
+- SA: Result Entry (4)
 - SA: Search Code
 - RE: Summary Request
-- SA: Hospital
+- SA: Form Settings
+- Interface: Search Result (2)
+- SA: Rpt Viewer
+- SA: Graph (2)
 - Interface: Input Box
+- Interface: Process
+- Interface: Main (5)
 - Interface: Settings (2)
 - SA: Medtech
 - SA: Result Entry (5)
-- Interface: Control Panel
 - Interface: Registration (2)
 - RE: Req Rates
 - SA: Physician
-- Interface: Search Result (2)
-- Interface: Main (4)
-- Interface: Main (5)
-- Interface: Activation
-- Interface: Warning
-- Interface: Result Viewer
-- Interface: Search Result (3)
-- RE: Sample In
-- SA: Classifications
 - SA: Result Entry (6)
-- Interface: Base64
+- Interface: Db Man
+- Interface: Archive
+- Interface: Data Base Copy
+- Interface: Result Viewer
+- RE: Sample In
+- SA: Hospital
+- SA: Rem Template
+- SA: Lab Profile Exams (2)
+- Interface: Activation
+- Interface: Main (6)
+- SA: Worklist Report
 - SA: Specimen
 - Interface: Class Forms
-- Interface: Main (6)
+- Interface: Search (2)
+- Interface: Search Result (3)
 - SA: Add Profiles
+- Interface: Control Panel
 - Interface: Settings (3)
 - Interface: Statistics
-- Interface: Wall
-- Interface: About
 - Interface: Backup List
-- Interface: Bar Code
-- Interface: Charmap
-- Interface: Archive
-- Interface: HL7Settings
 - Interface: Search Result (4)
 - Interface: Search Result (5)
 - Interface: Search Result (6)
-- Interface: Create DNS
 - Interface: Settings (4)
+- SA: Result Entry (7)
 - Interface: Search Result (7)
 
 ## God Nodes (most connected - your core abstractions)
 1. `frmResultEntry (frm)` - 188 edges
 2. `frmSearchResult (frm)` - 75 edges
 3. `frmEditRequest (frm)` - 69 edges
-4. `modMain (bas)` - 63 edges
-5. `frmSettings (frm)` - 61 edges
-6. `mdiMain (frm)` - 59 edges
-7. `frmReceiveData (frm)` - 52 edges
+4. `mdiMain (frm)` - 65 edges
+5. `modMain (bas)` - 64 edges
+6. `frmSettings (frm)` - 61 edges
+7. `frmReceiveData (frm)` - 54 edges
 8. `frmNormalValues (frm)` - 51 edges
 9. `modFunctions.highLight()` - 49 edges
 10. `ClassForms (cls)` - 45 edges
@@ -118,53 +125,53 @@
   New Lab-I System v2/ClassForms.cls → New Lab-I System v2/frmResultViewer.frm
 - `ClassForms.showInputBox()` --references--> `frmInputBox (frm)`  [EXTRACTED]
   New Lab-I System v2/ClassForms.cls → New Lab-I System v2/frmInputBox.frm
+- `modOutbox.CompleteSpool()` --calls--> `clsMLLPClient.Accepted()`  [EXTRACTED]
+  New Lab-I System v2/modOutbox.bas → New Lab-I System v2/clsMLLPClient.cls
 - `ClassForms.SearchRequestFormLeft()` --references--> `frmSearchRequest (frm)`  [EXTRACTED]
   HostFomrs_RE/ClassForms.cls → HostFomrs_RE/frmSearchRequest.frm
 - `ClassForms.showSearchForm()` --references--> `frmSearchRequest (frm)`  [EXTRACTED]
   HostFomrs_RE/ClassForms.cls → HostFomrs_RE/frmSearchRequest.frm
-- `ClassForms.showRequestSettings()` --references--> `frmRequestSetting (frm)`  [EXTRACTED]
-  HostFomrs_RE/ClassForms.cls → HostFomrs_RE/frmRequestSetting.frm
 
 ## Import Cycles
 - None detected.
 
-## Communities (90 total, 4 thin omitted)
+## Communities (97 total, 3 thin omitted)
 
 ### Community 0 - "SA: Result Entry"
 Cohesion: 0.02
-Nodes (5): frmResultEntry (frm), frmResultEntry.cboResult_Change(), frmResultEntry.cboResult_Click(), frmResultEntry.Form_Resize(), frmResultEntry.setPosDemo()
+Nodes (3): frmResultEntry (frm), frmResultEntry.cboResult_Change(), frmResultEntry.cboResult_Click()
 
-### Community 1 - "SA: Rpt Export"
-Cohesion: 0.06
-Nodes (39): ClassForms.PrintBarCode(), ClassForms.ResultAutoPrint(), ClassForms.ResultPrint(), ClassForms.showResultAutoPrint(), ClassForms.showResultPrintPreview(), frmClassifications.cmdPrint_Click(), frmLabProfiles.cmdPrint_Click(), frmLogbook.cmdPrint_Click() (+31 more)
+### Community 1 - "Interface: Outbox"
+Cohesion: 0.07
+Nodes (71): frmMiddleware (frm), frmMiddleware.cboDest_Click(), frmMiddleware.cboFolder_Click(), frmMiddleware.cmdClose_Click(), frmMiddleware.cmdRefresh_Click(), frmMiddleware.cmdResend_Click(), frmMiddleware.cmdSave_Click(), frmMiddleware.cmdSwitch_Click() (+63 more)
 
-### Community 2 - "SA: Lab Profile Exams"
-Cohesion: 0.05
-Nodes (32): ClassForms.showProfileExams(), frmLabProfileExams (frm), frmLabProfileExams.cmdAddExam_Click(), frmLabProfileExams.cmdBack_Click(), frmLabProfileExams.cmdCopy_Click(), frmLabProfileExams.cmdDown_Click(), frmLabProfileExams.cmdForward_Click(), frmLabProfileExams.cmdSave_Click() (+24 more)
-
-### Community 3 - "RE: Edit Request"
+### Community 2 - "RE: Edit Request"
 Cohesion: 0.06
 Nodes (37): ClassForms.printRequestForm(), frmEditRequest (frm), frmEditRequest.blnMandatoryClear(), frmEditRequest.CheckWithSTAT(), frmEditRequest.chkStat_Click(), frmEditRequest.cmbmsfgResult_KeyDown(), frmEditRequest.cmbmsfgResult_KeyPress(), frmEditRequest.DelExam() (+29 more)
 
-### Community 4 - "RE: Wards Rooms"
+### Community 3 - "RE: Wards Rooms"
 Cohesion: 0.06
 Nodes (26): frmWardsRooms (frm), frmWardsRooms.checkDefRate(), frmWardsRooms.cmdDeptClose_Click(), frmWardsRooms.cmdRoomClose_Click(), frmWardsRooms.cmdUpdateDept_Click(), frmWardsRooms.cmdUpdateRoom_Click(), frmWardsRooms.cmdUpdateWard_Click(), frmWardsRooms.cmdWardClose_Click() (+18 more)
 
-### Community 5 - "SA: Normal Values"
+### Community 4 - "SA: Normal Values"
 Cohesion: 0.05
 Nodes (26): frmNormalValues (frm), frmNormalValues.clearItems(), frmNormalValues.cmdAddSave_Click(), frmNormalValues.cmdCancel_Click(), frmNormalValues.cmdCopyFrom_Click(), frmNormalValues.cmdDeleteItems_Click(), frmNormalValues.displayExams(), frmNormalValues.msfgResult_DblClick() (+18 more)
 
-### Community 6 - "ComSet: Com Settings"
+### Community 5 - "ComSet: Com Settings"
 Cohesion: 0.06
 Nodes (26): ComSettings (cls), ComSettings.showSettings(), frmSelectPlugins (frm), frmSettings (frm), frmSettings2 (frm), frmSettings2.AssignValues(), frmSettings2.cboControl_Change(), frmSettings2.cboControl_Click() (+18 more)
+
+### Community 6 - "Interface: Base64"
+Cohesion: 0.05
+Nodes (30): frmAbout (frm), frmAbout.cmdSysInfo_Click(), frmAbout.GetKeyValue(), frmAbout.StartSysInfo(), frmBarCode (frm), frmBarCode.cmdPrint_Click(), frmBarCode.cmdPrint_GotFocus(), frmCharmap (frm) (+22 more)
 
 ### Community 7 - "SA: JSON"
 Cohesion: 0.10
 Nodes (29): cJSONScript (cls), cJSONScript.Eval(), cJSONScript.ExecCommand(), cStringBuilder (cls), cStringBuilder.Append(), cStringBuilder.AppendByVal(), cStringBuilder.AppendNL(), cStringBuilder.Insert() (+21 more)
 
 ### Community 8 - "Interface: Receive Data"
-Cohesion: 0.10
-Nodes (33): frmReceiveData (frm), frmReceiveData.ArchiveUnprocessed(), frmReceiveData.checkComStatus(), frmReceiveData.Command1_Click(), frmReceiveData.Command2_Click(), frmReceiveData.Command3_Click(), frmReceiveData.Command4_Click(), frmReceiveData.consoleCmd() (+25 more)
+Cohesion: 0.11
+Nodes (32): frmReceiveData (frm), frmReceiveData.ArchiveUnprocessed(), frmReceiveData.checkComStatus(), frmReceiveData.Command1_Click(), frmReceiveData.Command2_Click(), frmReceiveData.Command3_Click(), frmReceiveData.Command4_Click(), frmReceiveData.consoleCmd() (+24 more)
 
 ### Community 9 - "Interface: Request"
 Cohesion: 0.06
@@ -176,323 +183,355 @@ Nodes (23): ClassForms.showLabExams(), frmLabExam (frm), frmLabExam.cboResultTyp
 
 ### Community 11 - "Interface: Main"
 Cohesion: 0.09
-Nodes (16): frmSettings.cmdSet_Click(), mdiMain (frm), mdiMain.mnuBackUp_Click(), mdiMain.mnuComSet_Click(), mdiMain.mnuControlPanel_Click(), mdiMain.mnuDisconnect_Click(), mdiMain.mnuDoctors_Click(), mdiMain.mnuExit_Click() (+8 more)
+Nodes (18): mdiMain (frm), mdiMain.mnuBackUp_Click(), mdiMain.mnuComSet_Click(), mdiMain.mnuControlPanel_Click(), mdiMain.mnuDisconnect_Click(), mdiMain.mnuDoctors_Click(), mdiMain.mnuExit_Click(), mdiMain.mnuLabExam_Click() (+10 more)
 
-### Community 12 - "SA: Form Settings"
-Cohesion: 0.10
-Nodes (15): ClassForms.showFormSettings(), ClassForms.showSelectionLists(), frmFormSettings (frm), frmFormSettings.fillCboSelection(), frmFormSettings.findCboIndex(), frmFormSettings.Form_Load(), frmSelectionLists (frm), frmSelectionLists.cmdAdd_Click() (+7 more)
+### Community 12 - "SA: Class Forms"
+Cohesion: 0.08
+Nodes (12): ClassForms (cls), ClassForms.GetSearchRecordSet(), ClassForms.SearchCode(), ClassForms.showClassifications(), ClassForms.showNormalValues(), ClassForms.showPIDsearch(), ClassForms.showResultEntry(), ClassForms.showSearchCode() (+4 more)
 
-### Community 13 - "Interface: OBISetiings"
+### Community 13 - "SA: Graph"
+Cohesion: 0.13
+Nodes (29): Graph (ctl), Graph.AddDefaultPoint(), Graph.AddDefaultPoints(), Graph.AxisColor(), Graph.BackColor(), Graph.BarWidth(), Graph.DrawBar(), Graph.DrawGraph() (+21 more)
+
+### Community 14 - "Interface: Settings"
+Cohesion: 0.07
+Nodes (7): frmSettings (frm), frmSettings.cmdSet_Click(), frmSettings.cmdSetPlugins_Click(), frmSettings.List1_Click(), frmSettings.LoadFileToTB(), frmSettings.txtDetails_DblClick(), mdiMain.mnuProgSettings_Click()
+
+### Community 15 - "SA: Lab Profile Exams"
+Cohesion: 0.12
+Nodes (20): ClassForms.showProfileExams(), frmLabProfileExams (frm), frmLabProfileExams.cmdAddExam_Click(), frmLabProfileExams.cmdBack_Click(), frmLabProfileExams.cmdDown_Click(), frmLabProfileExams.cmdForward_Click(), frmLabProfileExams.cmdSet_Click(), frmLabProfileExams.cmdUp_Click() (+12 more)
+
+### Community 16 - "Interface: OBISetiings"
 Cohesion: 0.11
 Nodes (19): frmOBISetiings (frm), frmOBISetiings.cboServerType_Change(), frmOBISetiings.cboServerType_Click(), frmOBISetiings.cmdConnect_Click(), frmOBISetiings.cmdTestApi_Click(), frmOBISetiings.FillCboList(), frmOBISetiings.findCboIndex(), frmOBISetiings.findcboType() (+11 more)
 
-### Community 14 - "Interface: Settings"
-Cohesion: 0.08
-Nodes (5): frmSettings (frm), frmSettings.cmdSetPlugins_Click(), frmSettings.List1_Click(), frmSettings.LoadFileToTB(), frmSettings.txtDetails_DblClick()
+### Community 17 - "Interface: Registration"
+Cohesion: 0.12
+Nodes (17): frmRegistration (frm), frmRegistration.cmdNewCode_Click(), frmRegistration.EnControls(), frmRegistration.Form_Load(), frmRegistration.ISHEX(), frmRegistration.OpenRegistrationServer(), frmRegistration.ProcessResponse(), frmRegistration.RetrieveRegistration() (+9 more)
 
-### Community 15 - "Interface: Search Result"
-Cohesion: 0.11
-Nodes (18): frmSearchResult (frm), frmSearchResult.cmdCancel_Click(), frmSearchResult.HighlightOver(), frmSearchResult.Image4_Click(), frmSearchResult.Image5_Click(), frmSearchResult.Image6_Click(), frmSearchResult.lblArchive_Click(), frmSearchResult.lblArchive_MouseMove() (+10 more)
+### Community 18 - "SA: Functions"
+Cohesion: 0.15
+Nodes (21): ClassForms.PrintBarCode(), ClassForms.ResultAutoPrint(), ClassForms.ResultPrint(), ClassForms.showResultAutoPrint(), ClassForms.showResultPrintPreview(), frmClassifications.cmdPrint_Click(), frmLabProfiles.cmdPrint_Click(), frmLogbook.cmdPrint_Click() (+13 more)
 
-### Community 16 - "SA: Report Formats"
+### Community 19 - "Interface: Main (2)"
+Cohesion: 0.10
+Nodes (17): frmDailyBackup.Form_Activate(), frmSettings.cmdSave_MouseUp(), modMain (bas), modMain.CLargeInt(), modMain.DailyBackup(), modMain.EnumRegistryKeys(), modMain.EnumRegistryValuesEx(), modMain.FilenameToDate() (+9 more)
+
+### Community 20 - "SA: Report Formats"
 Cohesion: 0.15
 Nodes (17): ClassForms.showReportFormats(), frmReportFormats (frm), frmReportFormats.assignValues(), frmReportFormats.ClearValues(), frmReportFormats.cmdBrowse_Click(), frmReportFormats.cmdCancel_Click(), frmReportFormats.cmdSave_Click(), frmReportFormats.cmdUpdate_Click() (+9 more)
 
-### Community 17 - "Interface: Db Man"
-Cohesion: 0.16
-Nodes (17): frmDbMan (frm), frmDbMan.cmdArchive_Click(), frmDbMan.cmdChangePassword_Click(), frmDbMan.cmdCompactDB_MouseUp(), frmDbMan.cmdFixLink_Click(), frmDbMan.cmdGenerateResultID_Click(), frmDbMan.cmdRestoreDB_Click(), frmDbMan.showStatus() (+9 more)
+### Community 21 - "Interface: Main (3)"
+Cohesion: 0.14
+Nodes (22): frmLabProfiles.cmdSave_Click(), frmPlugInTest (frm), frmPlugInTest.cboFormatting_Click(), frmPlugInTest.cmdNextRecord_Click(), frmPlugInTest.cmdPreviousRecord_Click(), frmPlugInTest.fileHosts_Click(), frmPlugInTest.fillcboFormatting(), frmPlugInTest.Form_Load() (+14 more)
 
-### Community 18 - "Interface: Registration"
+### Community 22 - "Interface: Search Result"
 Cohesion: 0.12
-Nodes (15): frmRegistration (frm), frmRegistration.cmdNewCode_Click(), frmRegistration.EnControls(), frmRegistration.ISHEX(), frmRegistration.ProcessResponse(), frmRegistration.RetrieveRegistration(), frmRegistration.SavePayload(), frmRegistration.txtCode1_Change() (+7 more)
+Nodes (16): frmSearchResult (frm), frmSearchResult.cmdCancel_Click(), frmSearchResult.HighlightOver(), frmSearchResult.Image5_Click(), frmSearchResult.Image6_Click(), frmSearchResult.lblArchive_Click(), frmSearchResult.lblArchive_MouseMove(), frmSearchResult.lblCancel_Click() (+8 more)
 
-### Community 19 - "Interface: Main (2)"
-Cohesion: 0.11
-Nodes (15): frmDailyBackup.Form_Activate(), frmSettings.cmdSave_MouseUp(), modMain (bas), modMain.CLargeInt(), modMain.DailyBackup(), modMain.EnumRegistryKeys(), modMain.EnumRegistryValuesEx(), modMain.FilenameToDate() (+7 more)
-
-### Community 20 - "RE: Search Request"
+### Community 23 - "RE: Search Request"
 Cohesion: 0.17
 Nodes (17): ClassForms.SearchRequestFormTop(), frmSearchRequest (frm), frmSearchRequest.cmdCancelSearchHIS_Click(), frmSearchRequest.cmdNew_Click(), frmSearchRequest.cmdSearch_Click(), frmSearchRequest.delPrevExtDB(), frmSearchRequest.Form_Load(), frmSearchRequest.initGrid() (+9 more)
 
-### Community 21 - "Interface: Search"
+### Community 24 - "SA: Result Entry (2)"
 Cohesion: 0.10
-Nodes (10): frmSearch (frm), frmSearch.cboStatus_Click(), frmSearch.cmdClear_Click(), frmSearch.cmdSearch_Click(), frmSearch.Form_Load(), frmSearch.Form_Resize(), frmSearch.Form_Unload(), frmSearch.getSearchString() (+2 more)
+Nodes (23): frmResultEntry.ConvertToNumeric(), frmResultEntry.DisplayResultForm(), frmResultEntry.FillCBOResult(), frmResultEntry.findCboIndex(), frmResultEntry.FormulaValue(), frmResultEntry.getResultValue(), frmResultEntry.hideBlankInstrumentResults(), frmResultEntry.lblClassName_Change() (+15 more)
 
-### Community 22 - "RE: Blowfish"
+### Community 25 - "Interface: Search"
+Cohesion: 0.11
+Nodes (10): frmSearch (frm), frmSearch.cmdClear_Click(), frmSearch.Form_Load(), frmSearch.Form_Resize(), frmSearch.Form_Unload(), frmWall (frm), frmWall.changeSize(), frmWall.Form_Load() (+2 more)
+
+### Community 26 - "RE: Blowfish"
 Cohesion: 0.22
 Nodes (20): clsBlowfish (cls), clsBlowfish.Append(), clsBlowfish.DecryptBlock(), clsBlowfish.DecryptByte(), clsBlowfish.DecryptFile(), clsBlowfish.DecryptString(), clsBlowfish.DeHex(), clsBlowfish.EncryptBlock() (+12 more)
 
-### Community 23 - "RE: Request Setting"
+### Community 27 - "RE: Request Setting"
 Cohesion: 0.12
 Nodes (12): frmRequestSetting (frm), frmRequestSetting.chkEditSort_Click(), frmRequestSetting.cmdDeptWardRoom_Click(), frmRequestSetting.cmdSave_Click(), frmRequestSetting.msfgRequestField_Click(), frmRequestSetting.msfgRequestField_LeaveCell(), frmRequestSetting.msfgRequestField_Scroll(), frmRequestSetting.txtLabel_KeyDown() (+4 more)
 
-### Community 24 - "SA: PIDsearch"
+### Community 28 - "SA: Points"
 Cohesion: 0.14
-Nodes (13): ClassForms.showPIDsearch(), frmPIDsearch (frm), frmPIDsearch.assignValues(), frmPIDsearch.ClearValues(), frmPIDsearch.cmdSelect_Click(), frmPIDsearch.Form_Load(), frmPIDsearch.GenerateTestPacket(), frmPIDsearch.GetError() (+5 more)
+Nodes (17): modFunctions.PtrObj(), Dataset.Datasets(), Dataset.Points(), Point (cls), Point.Points(), Point.State(), Point.StateChanged(), Point.SuperState() (+9 more)
 
-### Community 25 - "Interface: Blowfish"
+### Community 29 - "Interface: Blowfish"
 Cohesion: 0.22
 Nodes (20): clsBlowfish (cls), clsBlowfish.Append(), clsBlowfish.DecryptBlock(), clsBlowfish.DecryptByte(), clsBlowfish.DecryptFile(), clsBlowfish.DecryptString(), clsBlowfish.DeHex(), clsBlowfish.EncryptBlock() (+12 more)
 
-### Community 26 - "SA: Result Entry (2)"
-Cohesion: 0.12
-Nodes (21): frmResultEntry.ConvertToNumeric(), frmResultEntry.DisplayResultForm(), frmResultEntry.FormulaValue(), frmResultEntry.getResultValue(), frmResultEntry.getTotalDiff(), frmResultEntry.hasDiff(), frmResultEntry.lblClassName_Change(), frmResultEntry.lblDiff_Change() (+13 more)
+### Community 30 - "SA: PIDsearch"
+Cohesion: 0.15
+Nodes (12): frmPIDsearch (frm), frmPIDsearch.assignValues(), frmPIDsearch.ClearValues(), frmPIDsearch.cmdSelect_Click(), frmPIDsearch.Form_Load(), frmPIDsearch.GenerateTestPacket(), frmPIDsearch.GetError(), frmPIDsearch.GetHTTPStatusCodeDesc() (+4 more)
 
-### Community 27 - "SA: Result Entry (3)"
+### Community 31 - "SA: Result Entry (3)"
 Cohesion: 0.18
 Nodes (21): frmResultEntry.txtAge_GotFocus(), frmResultEntry.txtBirthDate_GotFocus(), frmResultEntry.txtCivilStatus_GotFocus(), frmResultEntry.txtClassID_GotFocus(), frmResultEntry.txtEntry_GotFocus(), frmResultEntry.txtFirstName_GotFocus(), frmResultEntry.txtLastName_GotFocus(), frmResultEntry.txtMedtech_GotFocus() (+13 more)
 
-### Community 28 - "RE: Selection"
+### Community 32 - "Interface: Work List"
+Cohesion: 0.18
+Nodes (18): frmWorkList (frm), frmWorkList.cboFilter_Click(), frmWorkList.cmdPos_Click(), frmWorkList.cmdRefresh_Click(), frmWorkList.cmdRemoveFromWorklist_Click(), frmWorkList.cmdSend_Click(), frmWorkList.dtpDate_Click(), frmWorkList.fillCboFilter() (+10 more)
+
+### Community 33 - "RE: Selection"
 Cohesion: 0.13
 Nodes (9): frmSelection (frm), frmSelection.cmdSelect_Click(), frmSelection.Form_Load(), frmSelection.msfgResult_DblClick(), frmSelection.msfgResult_KeyPress(), frmSelection.setGrid(), frmSelection.txtFilter_Change(), frmSelection.txtFilter_KeyDown() (+1 more)
 
-### Community 29 - "RE: Class Main"
+### Community 34 - "SA: Lab Profiles"
+Cohesion: 0.12
+Nodes (12): ClassForms.showLabProfiles(), frmLabProfiles (frm), frmLabProfiles.cmdTemplate_Click(), frmLabProfiles.Form_Load(), frmLabProfiles.setFlexGrid(), frmTemplate (frm), frmTemplate.cmdSelect_Click(), frmTemplate.Form_Load() (+4 more)
+
+### Community 35 - "SA: Datasets"
+Cohesion: 0.13
+Nodes (15): Datasets (cls), Datasets.Add(), Datasets.Class_Initialize(), Datasets.Clear(), Datasets.Load(), Datasets.Save(), Datasets.StateChanged(), Datasets.SuperState() (+7 more)
+
+### Community 36 - "RE: Class Main"
 Cohesion: 0.16
 Nodes (18): ClassForms.getDispTestReqSum(), ClassForms.wConnection(), frmEditRequest.Form_Load(), frmEditRequest.ReqIsLocked(), frmEditRequest.ReqLock(), frmEditRequest.setmsfgResultDemo(), frmEditRequest.setmsfgResultReq(), frmEditRequest.sizeFix() (+10 more)
 
-### Community 30 - "SA: Lab Profiles"
+### Community 37 - "Shared: Data Base Copy"
 Cohesion: 0.12
-Nodes (10): ClassForms.showLabProfiles(), frmLabProfiles (frm), frmLabProfiles.cmdSave_Click(), frmLabProfiles.cmdTemplate_Click(), frmLabProfiles.Form_Load(), frmLabProfiles.setFlexGrid(), frmTemplate (frm), frmTemplate.cmdSelect_Click() (+2 more)
+Nodes (6): frmDataBaseCopy.GenerateInsertResultID(), frmDataBaseCopy.StartCopy(), frmDbMan.cmdArchive_Click(), frmDbMan.cmdGenerateResultID_Click(), modMain.GenerateResultID(), modMain.LinkTable()
 
-### Community 31 - "Interface: Main (3)"
-Cohesion: 0.18
-Nodes (17): frmProcess (frm), frmProcess.processData(), frmProcess.SaveResult(), frmProcess.Timer1_Timer(), frmReceiveData.processData(), frmReceiveData.SaveResult(), frmReceiveData.saveUcontrol(), frmReceiveData.tmrAutoPrint_Timer() (+9 more)
+### Community 38 - "Interface: Main (4)"
+Cohesion: 0.22
+Nodes (18): frmDbMan.cmdChangePassword_Click(), frmDbMan.cmdCompactDB_MouseUp(), frmDbMan.cmdRestoreDB_Click(), frmSettings.cmdClose_Click(), mdiMain.mnuConnServ_Click(), mdiMain.mnuConSet_Click(), mdiMain.mnuReportFormats_Click(), modMain.BackupDatabase() (+10 more)
 
-### Community 32 - "Interface: Work List"
-Cohesion: 0.21
-Nodes (16): frmWorkList (frm), frmWorkList.cboFilter_Click(), frmWorkList.cmdPos_Click(), frmWorkList.cmdRefresh_Click(), frmWorkList.cmdRemoveFromWorklist_Click(), frmWorkList.cmdSend_Click(), frmWorkList.dtpDate_Click(), frmWorkList.fillCboFilter() (+8 more)
-
-### Community 33 - "RE: Class Forms"
+### Community 39 - "RE: Class Forms"
 Cohesion: 0.12
 Nodes (10): ClassForms (cls), ClassForms.CheckInSample(), ClassForms.Class_Initialize(), ClassForms.EditRequest(), ClassForms.printBarCode(), ClassForms.SearchRequestFormLeft(), ClassForms.showRequestSettings(), ClassForms.showSearchForm() (+2 more)
 
-### Community 34 - "RE: Exam Selection"
+### Community 40 - "RE: Exam Selection"
 Cohesion: 0.16
 Nodes (11): frmExamSelection (frm), frmExamSelection.cmbSpecimen_Click(), frmExamSelection.cmdSelect_Click(), frmExamSelection.Form_Load(), frmExamSelection.msfgResult_DblClick(), frmExamSelection.msfgResult_KeyPress(), frmExamSelection.setGrid(), frmExamSelection.setListCmbSelection() (+3 more)
 
-### Community 35 - "SA: Worklist Report"
-Cohesion: 0.12
-Nodes (11): ClassForms.showOtherReports(), ClassForms.showWorklistReport(), frmInputBox.Form_Load(), frmLabProfileExams.Form_Load(), frmNormalValues.Form_Load(), frmOtherReports (frm), frmOtherReports.Form_Load(), frmPrintCopies.Form_Load() (+3 more)
+### Community 41 - "SA: Dataset"
+Cohesion: 0.19
+Nodes (16): Dataset (cls), Dataset.BarColor(), Dataset.CapColor(), Dataset.Class_Initialize(), Dataset.InitProperties(), Dataset.LineColor(), Dataset.mobjPoints_Changed(), Dataset.PointColor() (+8 more)
 
-### Community 36 - "Interface: DBsettings"
+### Community 42 - "Interface: MLLPClient"
+Cohesion: 0.19
+Nodes (14): clsMLLPClient (cls), clsMLLPClient.Accepted(), clsMLLPClient.CheckTimeout(), clsMLLPClient.Class_Terminate(), clsMLLPClient.Finish(), clsMLLPClient.LastError(), clsMLLPClient.ParseAck(), clsMLLPClient.SendFrame() (+6 more)
+
+### Community 43 - "Interface: DBsettings"
 Cohesion: 0.13
-Nodes (6): frmDBsettings (frm), frmDBsettings.cmdSave_Click(), frmDBsettings.fillcboServerType(), frmDBsettings.Form_Load(), frmDBsettings.setCBOServer(), frmDBsettings.txtSchema_GotFocus()
+Nodes (6): frmDBsettings (frm), frmDBsettings.cmdSave_Click(), frmDBsettings.fillcboServerType(), frmDBsettings.Form_Load(), frmDBsettings.setCBOServer(), frmDBsettings.txtUsername_GotFocus()
 
-### Community 37 - "RE: Edit Request (2)"
+### Community 44 - "RE: Edit Request (2)"
 Cohesion: 0.23
 Nodes (16): frmEditRequest.AddExamDet(), frmEditRequest.blnExamOccured(), frmEditRequest.cmdExamMenu_Click(), frmEditRequest.RemoveFromTestToDel(), frmEditRequest.txtmsfgExam_GotFocus(), frmEditRequest.txtmsfgExam_KeyDown(), frmEditRequest.txtmsfgExam_KeyPress(), frmEditRequest.txtmsfgResult_GotFocus() (+8 more)
 
-### Community 38 - "SA: Input Box"
+### Community 45 - "SA: Input Box"
 Cohesion: 0.12
 Nodes (3): ClassForms.showInputBox(), frmInputBox (frm), frmInputBox.txtValue_GotFocus()
 
-### Community 39 - "SA: Result Entry (4)"
-Cohesion: 0.14
-Nodes (16): frmResultEntry.ClearValues(), frmResultEntry.cmdNext_Click(), frmResultEntry.cmdPIDSearch_Click(), frmResultEntry.cmdPrevious_Click(), frmResultEntry.cmdSave_Click(), frmResultEntry.fillLists(), frmResultEntry.Form_Activate(), frmResultEntry.Form_Load() (+8 more)
-
-### Community 40 - "Interface: Plug In Test"
-Cohesion: 0.23
-Nodes (14): frmPlugInTest (frm), frmPlugInTest.cboFormatting_Click(), frmPlugInTest.cmdNextRecord_Click(), frmPlugInTest.cmdPreviousRecord_Click(), frmPlugInTest.fileHosts_Click(), frmPlugInTest.fillcboFormatting(), frmPlugInTest.Form_Load(), frmPlugInTest.ViewItems() (+6 more)
-
-### Community 41 - "Shared: Logbook"
-Cohesion: 0.13
-Nodes (12): Dataset.cls (outside repo), Datasets.cls (outside repo), Graph.ctl (outside repo), modConstants.bas (outside repo), modFiles.bas (outside repo), modTypes.bas (outside repo), Point.cls (outside repo), Points.cls (outside repo) (+4 more)
-
-### Community 42 - "RE: Del Req"
+### Community 46 - "RE: Del Req"
 Cohesion: 0.21
 Nodes (12): ClassForms.DelReq(), frmDelReq (frm), frmDelReq.AddExamDet(), frmDelReq.blnExamOccured(), frmDelReq.DelExamDet(), frmDelReq.msfgResult_Click(), frmDelReq.msfgResult_EnterCell(), frmDelReq.msfgResult_LeaveCell() (+4 more)
 
-### Community 43 - "SA: Class Forms"
+### Community 47 - "SA: Logbook"
 Cohesion: 0.13
-Nodes (3): ClassForms (cls), ClassForms.showNormalValues(), ClassForms.showResultEntry()
+Nodes (11): ClassForms.showLogbook(), ClassForms.showOtherReports(), frmInputBox.Form_Load(), frmLabProfileExams.Form_Load(), frmLogbook (frm), frmLogbook.Form_Load(), frmNormalValues.Form_Load(), frmOtherReports (frm) (+3 more)
 
-### Community 44 - "SA: Print Copies"
+### Community 48 - "SA: Print Copies"
 Cohesion: 0.13
 Nodes (7): ClassForms.showPrintCopies(), frmPrintCopies (frm), frmPrintCopies.txtCopy1_Change(), frmPrintCopies.txtCopy1_GotFocus(), frmPrintCopies.txtCopy2_Change(), frmPrintCopies.txtCopy2_GotFocus(), frmPrintCopies.txtCopy2Tag_GotFocus()
 
-### Community 45 - "Interface: License Manager"
+### Community 49 - "SA: Selection Lists"
+Cohesion: 0.23
+Nodes (10): ClassForms.showSelectionLists(), frmSelectionLists (frm), frmSelectionLists.cmdAdd_Click(), frmSelectionLists.cmdAddCategories_Click(), frmSelectionLists.cmdDelete_Click(), frmSelectionLists.cmdDeleteCat_Click(), frmSelectionLists.filllstType(), frmSelectionLists.findValues() (+2 more)
+
+### Community 50 - "SA: Rpt Export"
+Cohesion: 0.20
+Nodes (12): frmRptExport (frm), frmRptExport.BrowseForFolder(), frmRptExport.cboFileType_Change(), frmRptExport.cboFileType_Click(), frmRptExport.cmdBrowse_Click(), frmRptExport.fillcboExport(), frmRptExport.findCboIndex(), frmRptExport.Form_Load() (+4 more)
+
+### Community 51 - "Interface: License Manager"
 Cohesion: 0.21
 Nodes (12): frmLicenseManager (frm), frmLicenseManager.cmdGetLicense_Click(), frmLicenseManager.cmdRegister_Click(), frmLicenseManager.DeletePayload(), frmLicenseManager.GetLicences(), frmLicenseManager.LoadDetails(), frmLicenseManager.OpenRegistrationServer(), frmLicenseManager.ProcessResponse() (+4 more)
 
-### Community 46 - "Interface: Check"
+### Community 52 - "Interface: Check"
 Cohesion: 0.25
 Nodes (15): modCheck (bas), modCheck.ASTMChecksum(), modCheck.bin2dec(), modCheck.CheckSum8(), modCheck.CRC16_CCITT(), modCheck.CRC16_CCITT_M(), modCheck.dec2bin(), modCheck.isValidCS() (+7 more)
 
-### Community 47 - "SA: Rem Template"
-Cohesion: 0.22
-Nodes (10): ClassForms.GetSearchRecordSet(), ClassForms.SearchCode(), ClassForms.showRemarksTemplate(), ClassForms.showSearchCode(), frmClassifications.cmdSave_Click(), frmRemTemplate (frm), frmRemTemplate.cmdAdd_Click(), frmRemTemplate.Form_Load() (+2 more)
-
-### Community 48 - "SA: Pathologist"
+### Community 53 - "SA: Pathologist"
 Cohesion: 0.22
 Nodes (9): ClassForms.showPathologist(), frmPathologist (frm), frmPathologist.cmdAdd_Click(), frmPathologist.cmdDelete_Click(), frmPathologist.Form_Load(), frmPathologist.msfgResult_KeyDown(), frmPathologist.setFlexGrid(), frmResultEntry.Label1_Click() (+1 more)
 
-### Community 49 - "SA: Search Code"
+### Community 54 - "SA: Result Entry (4)"
+Cohesion: 0.16
+Nodes (14): frmResultEntry.cmdSave_Click(), frmResultEntry.fillLists(), frmResultEntry.GetLicenses(), frmResultEntry.getTotalDiff(), frmResultEntry.hasDiff(), frmResultEntry.lblDiff_Change(), frmResultEntry.replaceStr(), frmResultEntry.returnDate() (+6 more)
+
+### Community 55 - "SA: Search Code"
 Cohesion: 0.16
 Nodes (6): frmSearchCode (frm), frmSearchCode.cmdSelect_Click(), frmSearchCode.Form_Load(), frmSearchCode.msfgResult_DblClick(), frmSearchCode.setFlexGrid(), frmSearchCode.txtFilter_GotFocus()
 
-### Community 50 - "RE: Summary Request"
+### Community 56 - "RE: Summary Request"
 Cohesion: 0.17
 Nodes (7): ClassForms.showReqSummary(), frmRequest (frm), frmSummaryRequest (frm), frmSummaryRequest.Form_Load(), frmSummaryRequest.setMsfgSummary(), modClassMain.showSummaryRequest(), HostForms_RE (HostForms_RE.dll, OleDll)
 
-### Community 51 - "SA: Hospital"
-Cohesion: 0.19
-Nodes (8): ClassForms.showHospitalInfo(), ClassForms.wConnection(), frmHospital (frm), frmHospital.cmdSave_Click(), frmHospital.Form_Load(), frmHospital.replaceStr(), frmDataBaseCopy.cmdCheck_Click(), frmDbMan.Form_Load()
+### Community 57 - "SA: Form Settings"
+Cohesion: 0.18
+Nodes (5): ClassForms.showFormSettings(), frmFormSettings (frm), frmFormSettings.fillCboSelection(), frmFormSettings.findCboIndex(), frmFormSettings.Form_Load()
 
-### Community 53 - "Interface: Settings (2)"
+### Community 58 - "Interface: Search Result (2)"
+Cohesion: 0.21
+Nodes (11): frmResultEntry.getUpdatedValues(), frmSearchResult.ArchiveResults(), frmSearchResult.cmdDelete_Click(), frmSearchResult.DeleteResults(), frmSearchResult.Image4_Click(), frmSearchResult.Image7_Click(), frmSearchResult.lblDelete_Click(), frmSearchResult.lblUpload_Click() (+3 more)
+
+### Community 59 - "SA: Rpt Viewer"
+Cohesion: 0.15
+Nodes (4): frmRptViewer (frm), frmRptViewer.CRViewer1_ExportButtonClicked(), frmRptViewer.CRViewer1_PrintButtonClicked(), modFunctions.ShowExportReport()
+
+### Community 60 - "SA: Graph (2)"
+Cohesion: 0.15
+Nodes (13): Graph.Appearance(), Graph.BorderStyle(), Graph.ControlState(), Graph.DrawControl(), Graph.FileState(), Graph.GraphState(), Graph.InitProperties(), Graph.SaveSettings() (+5 more)
+
+### Community 62 - "Interface: Process"
+Cohesion: 0.24
+Nodes (11): frmProcess (frm), frmProcess.Form_Load(), frmProcess.processData(), frmProcess.SaveResult(), frmProcess.Timer1_Timer(), frmReceiveData.processData(), frmReceiveData.QueueForMiddleware(), frmReceiveData.SaveResult() (+3 more)
+
+### Community 63 - "Interface: Main (5)"
+Cohesion: 0.19
+Nodes (12): frmReceiveData.Form_Unload(), mdiMain.ApplyMiddlewareMenus(), mdiMain.MDIForm_Load(), mdiMain.MDIForm_Resize(), mdiMain.mnuConnect_Click(), mdiMain.mnuSendID_Click(), mdiMain.mnuSendReceive_Click(), mdiMain.tbrMain_ButtonMenuClick() (+4 more)
+
+### Community 64 - "Interface: Settings (2)"
 Cohesion: 0.15
 Nodes (13): frmSettings.File1_Click(), frmSettings.File2_Click(), frmSettings.fillcboExport(), frmSettings.fillcboScheme(), frmSettings.findcboType(), frmSettings.Form_Load(), frmSettings.initCdgExportLocation(), frmSettings.ListSubDirs() (+5 more)
 
-### Community 54 - "SA: Medtech"
+### Community 65 - "SA: Medtech"
 Cohesion: 0.27
 Nodes (7): ClassForms.showMedTech(), frmMedtech (frm), frmMedtech.cmdAdd_Click(), frmMedtech.cmdDelete_Click(), frmMedtech.Form_Load(), frmMedtech.msfgResult_KeyDown(), frmMedtech.setFlexGrid()
 
-### Community 55 - "SA: Result Entry (5)"
-Cohesion: 0.18
-Nodes (12): frmResultEntry.FillCBOResult(), frmResultEntry.findCboIndex(), frmResultEntry.getIResultDate(), frmResultEntry.hideBlankInstrumentResults(), frmResultEntry.msfgResult_Click(), frmResultEntry.msfgResult_EnterCell(), frmResultEntry.msfgResult_GotFocus(), frmResultEntry.msfgResult_Scroll() (+4 more)
+### Community 66 - "SA: Result Entry (5)"
+Cohesion: 0.21
+Nodes (12): frmResultEntry.ClearValues(), frmResultEntry.cmdNext_Click(), frmResultEntry.cmdPrevious_Click(), frmResultEntry.Form_Load(), frmResultEntry.getIResultDate(), frmResultEntry.InitForm(), frmResultEntry.msfgResult_EnterCell(), frmResultEntry.OpenPrevious() (+4 more)
 
-### Community 56 - "Interface: Control Panel"
-Cohesion: 0.20
-Nodes (11): frmControlPanel (frm), frmControlPanel.Form_Load(), frmControlPanel.lvwItems_DblClick(), frmControlPanel.lvwItems_KeyDown(), frmInputBox.Form_Load(), frmProcess.Form_Load(), frmReceiveData.Form_Activate(), frmSearch.Form_Activate() (+3 more)
-
-### Community 57 - "Interface: Registration (2)"
+### Community 67 - "Interface: Registration (2)"
 Cohesion: 0.17
-Nodes (12): frmDBsettings.txtDatabase_GotFocus(), frmDBsettings.txtPassword_GotFocus(), frmDBsettings.txtServerName_GotFocus(), frmDBsettings.txtUsername_GotFocus(), frmRegistration.txtCode1_GotFocus(), frmRegistration.txtCode2_GotFocus(), frmRegistration.txtCode3_GotFocus(), frmRegistration.txtCode4_GotFocus() (+4 more)
+Nodes (12): frmDBsettings.txtDatabase_GotFocus(), frmDBsettings.txtPassword_GotFocus(), frmDBsettings.txtSchema_GotFocus(), frmDBsettings.txtServerName_GotFocus(), frmRegistration.txtCode1_GotFocus(), frmRegistration.txtCode2_GotFocus(), frmRegistration.txtCode3_GotFocus(), frmRegistration.txtCode4_GotFocus() (+4 more)
 
-### Community 58 - "RE: Req Rates"
+### Community 68 - "RE: Req Rates"
 Cohesion: 0.24
 Nodes (7): ClassForms.showReqRates(), frmReqRates (frm), frmReqRates.cmdSaveDiscount_Click(), frmReqRates.Form_Load(), frmReqRates.setmsfgRates(), frmReqRates.setmsfgReqDiscounts(), frmReqRates.txtDiscountName_GotFocus()
 
-### Community 59 - "SA: Physician"
+### Community 69 - "SA: Physician"
 Cohesion: 0.31
 Nodes (7): ClassForms.showPhysician(), frmPhysician (frm), frmPhysician.cmdAdd_Click(), frmPhysician.cmdDelete_Click(), frmPhysician.Form_Load(), frmPhysician.msfgResult_KeyDown(), frmPhysician.setFlexGrid()
 
-### Community 60 - "Interface: Search Result (2)"
-Cohesion: 0.25
-Nodes (9): frmResultEntry.getUpdatedValues(), frmSearchResult.ArchiveResults(), frmSearchResult.cmdDelete_Click(), frmSearchResult.DeleteResults(), frmSearchResult.Image7_Click(), frmSearchResult.lblUpload_Click(), frmSearchResult.MergeResults(), frmSearchResult.msfgResult_KeyDown() (+1 more)
-
-### Community 61 - "Interface: Main (4)"
-Cohesion: 0.24
-Nodes (10): frmLicenseManager.Form_Load(), frmRegistration.cmdRegister_Click(), frmRegistration.Form_Load(), frmRegistration.OpenRegistrationServer(), mdiMain.mnuactivation_Click(), modMain.GetCpuID(), modMain.GetSAVersion(), modMain.GetSerialNumber() (+2 more)
-
-### Community 62 - "Interface: Main (5)"
-Cohesion: 0.24
-Nodes (10): frmReceiveData.Form_Unload(), mdiMain.MDIForm_Load(), mdiMain.MDIForm_Resize(), mdiMain.mnuConnect_Click(), mdiMain.mnuSendID_Click(), mdiMain.mnuSendReceive_Click(), mdiMain.tbrMain_ButtonMenuClick(), modMain.InitCommonControlsVB() (+2 more)
-
-### Community 63 - "Interface: Activation"
-Cohesion: 0.22
-Nodes (5): frmActivation (frm), frmActivation.cmdEnter_Click(), frmActivation.saveData(), frmActivation.txtSerial_Change(), frmActivation.txtSerial_GotFocus()
-
-### Community 64 - "Interface: Warning"
+### Community 70 - "SA: Result Entry (6)"
 Cohesion: 0.20
-Nodes (6): frmDailyBackup (frm), frmSelectInstrument (frm), frmWarning (frm), frmWorkListAdd (frm), mdiMain.tmrDailyBackup_Timer(), HostInterface (Interface.exe, Exe)
+Nodes (11): frmResultEntry.AssignPIDValues(), frmResultEntry.cmdPIDSearch_Click(), frmResultEntry.Form_Activate(), frmResultEntry.GetIdFromName(), frmResultEntry.getNVclass(), frmResultEntry.setValues(), frmResultEntry.txtBirthDate_Change(), frmResultEntry.txtClassID_KeyDown() (+3 more)
 
-### Community 65 - "Interface: Result Viewer"
+### Community 71 - "Interface: Db Man"
+Cohesion: 0.20
+Nodes (4): frmDbMan (frm), frmDbMan.cmdCopy_Click(), frmDbMan.cmdFixLink_Click(), frmDbMan.showStatus()
+
+### Community 72 - "Interface: Archive"
+Cohesion: 0.20
+Nodes (8): ClassForms.showArchive(), frmActivation.txtSerial_Change(), frmArchive (frm), frmArchive.Form_Load(), frmInputBox.Form_Load(), frmReceiveData.Form_Activate(), frmSearch.Form_Activate(), modMain.setFormColors()
+
+### Community 73 - "Interface: Data Base Copy"
+Cohesion: 0.22
+Nodes (6): frmDataBaseCopy (frm), frmDataBaseCopy.cmdStart_Click(), frmDataBaseCopy.Dir1_Change(), frmDataBaseCopy.Dir1_Click(), frmDataBaseCopy.findCol(), frmDataBaseCopy.Form_Load()
+
+### Community 74 - "Interface: Result Viewer"
 Cohesion: 0.24
 Nodes (6): frmResultViewer (frm), frmResultViewer.cmdSave_Click(), frmResultViewer.Form_Load(), frmResultViewer.setmsfgResult(), frmResultViewer.txtSampleNum_GotFocus(), frmResultViewer.UpdateData()
 
-### Community 66 - "Interface: Search Result (3)"
-Cohesion: 0.20
-Nodes (10): frmSearchResult.cmdPreview_Click(), frmSearchResult.Form_Load(), frmSearchResult.Form_Resize(), frmSearchResult.Image1_Click(), frmSearchResult.lblPreview_Click(), frmSearchResult.msfgResult_Click(), frmSearchResult.msfgResult_MouseDown(), frmSearchResult.msfgResult_Scroll() (+2 more)
-
-### Community 67 - "RE: Sample In"
+### Community 75 - "RE: Sample In"
 Cohesion: 0.25
 Nodes (3): frmSampleIn (frm), frmSampleIn.Form_Load(), frmSampleIn.setmsfgSamples()
 
-### Community 68 - "SA: Classifications"
+### Community 76 - "SA: Hospital"
+Cohesion: 0.28
+Nodes (5): ClassForms.showHospitalInfo(), frmHospital (frm), frmHospital.cmdSave_Click(), frmHospital.Form_Load(), frmHospital.replaceStr()
+
+### Community 77 - "SA: Rem Template"
+Cohesion: 0.36
+Nodes (6): ClassForms.showRemarksTemplate(), frmRemTemplate (frm), frmRemTemplate.cmdAdd_Click(), frmRemTemplate.Form_Load(), frmRemTemplate.msfgResult_KeyDown(), frmRemTemplate.setFlexGrid()
+
+### Community 78 - "SA: Lab Profile Exams (2)"
+Cohesion: 0.22
+Nodes (6): ClassForms.wConnection(), frmLabProfileExams.cmdCopy_Click(), frmLabProfileExams.cmdSave_Click(), frmResultEntry.setAdditionalProfiles(), frmDataBaseCopy.cmdCheck_Click(), frmDbMan.Form_Load()
+
+### Community 79 - "Interface: Activation"
 Cohesion: 0.25
-Nodes (4): ClassForms.showClassifications(), frmClassifications (frm), frmClassifications.Form_Load(), frmClassifications.setFlexGrid()
+Nodes (4): frmActivation (frm), frmActivation.cmdEnter_Click(), frmActivation.saveData(), frmActivation.txtSerial_GotFocus()
 
-### Community 69 - "SA: Result Entry (6)"
+### Community 80 - "Interface: Main (6)"
+Cohesion: 0.31
+Nodes (8): frmLicenseManager.Form_Load(), frmRegistration.cmdRegister_Click(), mdiMain.mnuactivation_Click(), modMain.GetCpuID(), modMain.GetSAVersion(), modMain.GetSerialNumber(), modMain.IsRegistered(), modMain.SystemSerialNumber()
+
+### Community 81 - "SA: Worklist Report"
 Cohesion: 0.25
-Nodes (9): frmResultEntry.AssignPIDValues(), frmResultEntry.GetIdFromName(), frmResultEntry.getNVclass(), frmResultEntry.setValues(), frmResultEntry.txtBirthDate_Change(), frmResultEntry.txtClassID_KeyDown(), frmResultEntry.txtPatientID_KeyDown(), frmResultEntry.txtSex_Change() (+1 more)
+Nodes (3): ClassForms.showWorklistReport(), frmWorklistReport (frm), frmWorklistReport.Form_Load()
 
-### Community 70 - "Interface: Base64"
-Cohesion: 0.47
-Nodes (9): modBase64 (bas), modBase64.Base64Decode(), modBase64.Base64DecodeString(), modBase64.Base64Encode(), modBase64.Base64Encode2(), modBase64.Base64EncodeString(), modBase64.ConvertBytesToString(), modBase64.ConvertStringToBytes() (+1 more)
-
-### Community 71 - "SA: Specimen"
+### Community 82 - "SA: Specimen"
 Cohesion: 0.43
 Nodes (5): frmSpecimen (frm), frmSpecimen.cmdAdd_Click(), frmSpecimen.Form_Load(), frmSpecimen.msfgResult_KeyDown(), frmSpecimen.setFlexGrid()
 
-### Community 72 - "Interface: Class Forms"
+### Community 83 - "Interface: Class Forms"
 Cohesion: 0.29
 Nodes (7): ClassForms (cls), ClassForms.showInputBox(), ClassForms.ShowResultViewer(), frmDbMan.cmdClearBuffer_Click(), frmSettings.cmdTestPlugin_Click(), mdiMain.mnuClearBuffer_Click(), mdiMain.mnuPlugTest_Click()
 
-### Community 73 - "Interface: Main (6)"
+### Community 84 - "Interface: Search (2)"
 Cohesion: 0.25
-Nodes (7): frmSettings.cmdClose_Click(), mdiMain.mnuReportFormats_Click(), modMain.checkResultString(), modMain.InitPlugin(), modMain.Main(), modMain.setResultReport(), modMain.VerifyRequestDB()
+Nodes (7): frmSearch.cboStatus_Click(), frmSearch.cmdSearch_Click(), frmSearch.getSearchString(), frmSearchResult.msfgResult_Click(), frmSearchResult.msfgResult_MouseDown(), frmSearchResult.wTrans(), mdiMain.mnuStat_Click()
 
-### Community 74 - "SA: Add Profiles"
+### Community 85 - "Interface: Search Result (3)"
+Cohesion: 0.25
+Nodes (8): frmSearchResult.cmdPreview_Click(), frmSearchResult.Form_Load(), frmSearchResult.Form_Resize(), frmSearchResult.Image1_Click(), frmSearchResult.lblPreview_Click(), frmSearchResult.msfgResult_Scroll(), frmSearchResult.OpenLocalConnection(), frmSearchResult.setIcons()
+
+### Community 86 - "SA: Add Profiles"
 Cohesion: 0.33
 Nodes (4): ClassForms.showAddProfile(), frmAddProfiles (frm), frmAddProfiles.Form_Load(), frmAddProfiles.setListView()
 
-### Community 75 - "Interface: Settings (3)"
+### Community 87 - "Interface: Control Panel"
+Cohesion: 0.33
+Nodes (6): frmControlPanel (frm), frmControlPanel.Form_Load(), frmControlPanel.lvwItems_DblClick(), frmControlPanel.lvwItems_KeyDown(), frmSettings.cmdSave_Click(), frmSettings.saveSettings()
+
+### Community 88 - "Interface: Settings (3)"
 Cohesion: 0.29
 Nodes (7): frmSettings.Check1_Click(), frmSettings.chkRegistry_Click(), frmSettings.chkTaskM_Click(), frmSettings.chkUsbStor_Click(), frmSettings.cmdRegistry_Click(), frmSettings.cmdTaskMAn_Click(), frmSettings.SaveValue()
 
-### Community 76 - "Interface: Statistics"
+### Community 89 - "Interface: Statistics"
 Cohesion: 0.43
 Nodes (5): frmStatistics (frm), frmStatistics.countData(), frmStatistics.Form_Load(), frmStatistics.getAverage(), frmStatistics.setmsfgResult()
 
-### Community 77 - "Interface: Wall"
-Cohesion: 0.43
-Nodes (6): frmWall (frm), frmWall.changeSize(), frmWall.Form_Load(), frmWall.Form_Resize(), frmWall.getIP(), mdiMain.MDIForm_Unload()
-
-### Community 78 - "Interface: About"
-Cohesion: 0.47
-Nodes (4): frmAbout (frm), frmAbout.cmdSysInfo_Click(), frmAbout.GetKeyValue(), frmAbout.StartSysInfo()
-
-### Community 79 - "Interface: Backup List"
+### Community 90 - "Interface: Backup List"
 Cohesion: 0.40
 Nodes (4): frmBackupList (frm), frmBackupList.Form_Load(), frmBackupList.ListSubDirs(), modMain.showBackupList()
 
-### Community 80 - "Interface: Bar Code"
-Cohesion: 0.40
-Nodes (5): frmBarCode (frm), frmBarCode.cmdPrint_Click(), frmBarCode.cmdPrint_GotFocus(), mdiMain.mnuBarCode_Click(), modMain.Mod43()
-
-### Community 81 - "Interface: Charmap"
-Cohesion: 0.40
-Nodes (3): frmCharmap (frm), frmCharmap.cmdInsert_Click(), frmCharmap.msfgResult_Click()
-
-### Community 82 - "Interface: Archive"
-Cohesion: 0.40
-Nodes (3): ClassForms.showArchive(), frmArchive (frm), frmArchive.Form_Load()
-
-### Community 84 - "Interface: Search Result (4)"
+### Community 91 - "Interface: Search Result (4)"
 Cohesion: 0.40
 Nodes (5): frmSearchResult.CanMerge(), frmSearchResult.GetResultID(), frmSearchResult.Image8_Click(), frmSearchResult.lblMerge_Click(), frmSearchResult.lblMerge_MouseMove()
 
-### Community 85 - "Interface: Search Result (5)"
+### Community 92 - "Interface: Search Result (5)"
 Cohesion: 0.40
 Nodes (5): frmSearchResult.cmdOpen_Click(), frmSearchResult.Image2_Click(), frmSearchResult.lblEdit_Click(), frmSearchResult.msfgResult_DblClick(), frmSearchResult.setSelectedItems()
 
-### Community 86 - "Interface: Search Result (6)"
+### Community 93 - "Interface: Search Result (6)"
 Cohesion: 0.40
 Nodes (5): frmSearchResult.cmdPrint_Click(), frmSearchResult.Image3_Click(), frmSearchResult.lblPrint_Click(), frmSearchResult.msfgResult_SelChange(), frmSearchResult.PrintResults()
 
-### Community 88 - "Interface: Settings (4)"
+### Community 94 - "Interface: Settings (4)"
 Cohesion: 0.50
 Nodes (4): frmSettings.chkPlugin_Click(), frmSettings.clearDetails(), frmSettings.fileList_Click(), frmSettings.setDetails()
 
 ## Knowledge Gaps
-- **10 isolated node(s):** `frmSelectInstrument (frm)`, `frmRequest (frm)`, `Graph.ctl (outside repo)`, `Dataset.cls (outside repo)`, `Datasets.cls (outside repo)` (+5 more)
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 625 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 isolated node(s):** `frmSelectInstrument (frm)`, `frmRequest (frm)`, `modConstants (bas)`, `modTypes (bas)`
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 637 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `modMain.setHostForms()` connect `Interface: Db Man` to `Interface: Main (4)`?**
+- **Why does `mdiMain (frm)` connect `Interface: Main` to `Interface: Work List`, `Interface: Base64`, `Interface: Main (4)`, `Interface: Request`, `Interface: Settings`, `Interface: Main (6)`, `Interface: Class Forms`, `Interface: Search (2)`, `Interface: Process`, `Interface: Main (5)`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `mdiMain.MDIForm_Load()` connect `Interface: Main (5)` to `SA: Lab Profile Exams (2)`, `Interface: Class Forms`, `Interface: Main (4)`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `ClassForms (cls)` connect `SA: Class Forms` to `SA: Rpt Export`, `SA: Lab Profile Exams`, `SA: Worklist Report`, `SA: Classifications`, `SA: Input Box`, `Shared: Logbook`, `SA: Add Profiles`, `SA: Lab Exam`, `SA: Form Settings`, `SA: Print Copies`, `SA: Rem Template`, `SA: Pathologist`, `SA: Report Formats`, `SA: Hospital`, `SA: Medtech`, `SA: PIDsearch`, `SA: Physician`, `SA: Lab Profiles`?**
+- **Why does `modMain.setHostForms()` connect `Interface: Main (4)` to `Interface: Main (6)`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `modMain.setButtons()` connect `Interface: Main (5)` to `Interface: Main`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **What connects `frmSelectInstrument (frm)`, `frmRequest (frm)`, `Graph.ctl (outside repo)` to the rest of the system?**
-  _10 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `frmSelectInstrument (frm)`, `frmRequest (frm)`, `modConstants (bas)` to the rest of the system?**
+  _4 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `SA: Result Entry` be split into smaller, more focused modules?**
-  _Cohesion score 0.019798210546354465 - nodes in this community are weakly interconnected._
-- **Should `SA: Rpt Export` be split into smaller, more focused modules?**
-  _Cohesion score 0.05764411027568922 - nodes in this community are weakly interconnected._
-- **Should `SA: Lab Profile Exams` be split into smaller, more focused modules?**
-  _Cohesion score 0.05075187969924812 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.02 - nodes in this community are weakly interconnected._
+- **Should `Interface: Outbox` be split into smaller, more focused modules?**
+  _Cohesion score 0.07207207207207207 - nodes in this community are weakly interconnected._
+- **Should `RE: Edit Request` be split into smaller, more focused modules?**
+  _Cohesion score 0.06464646464646465 - nodes in this community are weakly interconnected._

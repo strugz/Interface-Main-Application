@@ -82,6 +82,7 @@ Public isResultNumeric As Boolean
 Public saveStringResult As Boolean
 Public Autoprocess As Boolean
 Public Autoprint As Boolean
+Public MiddlewareMode As Boolean     'Lab-I\Middleware\Enable: forward results to LIS/HIS only (see modOutbox)
 
 Public myConnection As New ADODB.Connection
 Public isDBconnected As Boolean
@@ -413,6 +414,28 @@ Else
 End If
 End Sub
 
+'Switches between Main mode (normal Lab-I) and Middleware mode.
+'Going to Middleware saves the Main mode Autoprocess/Autoprint values first;
+'going back to Main restores them, so the site is exactly as it was.
+Public Sub SetMiddlewareMode(ByVal TurnOn As Boolean)
+    If TurnOn Then
+        If Val(GetSetting("Lab-I", "Middleware", "Enable", "0")) <> 1 Then
+            SaveSetting "Lab-I", "Middleware", "SavedAutoprocess", GetSetting("Lab-I", "Settings", "Autoprocess", "0")
+            SaveSetting "Lab-I", "Middleware", "SavedAutoprint", GetSetting("Lab-I", "Settings", "Autoprint", "0")
+        End If
+        SaveSetting "Lab-I", "Middleware", "Enable", "1"
+    Else
+        SaveSetting "Lab-I", "Middleware", "Enable", "0"
+        SaveSetting "Lab-I", "Settings", "Autoprocess", GetSetting("Lab-I", "Middleware", "SavedAutoprocess", GetSetting("Lab-I", "Settings", "Autoprocess", "0"))
+        SaveSetting "Lab-I", "Settings", "Autoprint", GetSetting("Lab-I", "Middleware", "SavedAutoprint", GetSetting("Lab-I", "Settings", "Autoprint", "0"))
+        On Error Resume Next
+        DeleteSetting "Lab-I", "Middleware", "SavedAutoprocess"
+        DeleteSetting "Lab-I", "Middleware", "SavedAutoprint"
+        On Error GoTo 0
+    End If
+    'The new mode takes effect when Interface.exe restarts (InitPlugin applies it).
+End Sub
+
 Public Sub InitPlugin()
 Dim EnablePlugin As Integer
 Dim PluginName As String
@@ -425,6 +448,14 @@ ProcessDateOnly = Val(GetSetting("Lab-I", "Settings", "DateOnly", "0"))
 ResultEditingMethod = GetSetting("Lab-I", "Settings", "Method", "B")
 Autoprocess = Val(GetSetting("Lab-I", "Settings", "Autoprocess", "0"))
 Autoprint = Val(GetSetting("Lab-I", "Settings", "Autoprint", "0"))
+MiddlewareMode = (Val(GetSetting("Lab-I", "Middleware", "Enable", "0")) = 1)
+If MiddlewareMode Then
+    'Middleware only: every result is processed and forwarded, nothing is printed
+    Autoprocess = True
+    Autoprint = False
+    SaveSetting "Lab-I", "Settings", "Autoprocess", "1"
+    SaveSetting "Lab-I", "Settings", "Autoprint", "0"
+End If
 On Error GoTo errINST
 If EnablePlugin = 1 Then
     PluginName = Format(GetSetting("Lab-I", "Settings", "PlugIN", ""), ">")

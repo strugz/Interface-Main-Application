@@ -416,8 +416,17 @@ Begin VB.MDIForm mdiMain
          Caption         =   "Connect to Server..."
          Visible         =   0   'False
       End
-      Begin VB.Menu mnuInitDTP 
+      Begin VB.Menu mnuInitDTP
          Caption         =   "Initialize DTP..."
+      End
+      Begin VB.Menu mnuSep06
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuMiddleware
+         Caption         =   "Middleware Settings..."
+      End
+      Begin VB.Menu mnuSwitchMode
+         Caption         =   "Switch to Middleware Mode..."
       End
       Begin VB.Menu mnuSep05 
          Caption         =   "-"
@@ -491,6 +500,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private mSkipExitPrompt As Boolean      'set by mnuSwitchMode_Click before the automatic restart
+
 Private Sub MDIForm_Load()
 Dim rstVersion As ADODB.Recordset
 Dim isCorrectVersion As Boolean
@@ -520,6 +531,7 @@ On Error GoTo errFound
     sbrStatus.Panels(6).Text = WinVersion
     sbrStatus.Panels(7).Visible = False
     mnuactivation.Visible = True
+    If MiddlewareMode Then ApplyMiddlewareMenus
     GetDBSettings
     Set mComSet = CreateObject("Comset.ComSettings")
     If isDBconnected Then
@@ -535,6 +547,12 @@ On Error GoTo errFound
     sbrStatus.Panels(1).Text = sbrStatus.Panels(1).Text & "/SA." & HostSA.Version
     If InstrumentID = "HMX" Then DInstrumentId = "STKS/HMX/LH" Else DInstrumentId = InstrumentID
     Me.Caption = App.Title & "." & App.Minor & " - [rev. " & Str(App.Revision) & "] - [" & DInstrumentId & "]"
+    If MiddlewareMode Then
+        Me.Caption = Me.Caption & " - [MIDDLEWARE]"
+        mnuSwitchMode.Caption = "Switch to Main Mode..."
+    Else
+        mnuSwitchMode.Caption = "Switch to Middleware Mode..."
+    End If
     setButtons 1, 0, 1, 1, 1
     If EnableDTP Then
         If Val(ObjDTP.ErrorNum) <> 0 Then
@@ -570,6 +588,42 @@ errFound:
     End If
 End Sub
 
+'Middleware mode (Lab-I\Middleware\Enable): hide result search, verification, printing,
+'reports and the people/report master data. Exams, normal values and profiles stay,
+'because they hold the LIS test code mapping (tbcolabexam.HisExamCode).
+Private Sub ApplyMiddlewareMenus()
+On Error Resume Next
+    mnuSearch.Checked = False
+    mnuSearch.Enabled = False
+    mnuSearch.Visible = False
+    mnuStat.Enabled = False
+    mnuStat.Visible = False
+    mnuRequest.Enabled = False
+    mnuRequest.Visible = False
+    mnuWorklist.Enabled = False
+    mnuWorklist.Visible = False
+    mnuQC.Enabled = False
+    mnuQC.Visible = False
+    mnuSep02.Visible = False
+    mnuReports.Visible = False
+    mnuHospital.Visible = False
+    mnuPathologist.Visible = False
+    mnuDoctors.Visible = False
+    mnuMedtech.Visible = False
+    sep01.Visible = False
+    mnuFlagLists.Visible = False
+    mnuSelectionLists.Visible = False
+    mnusep12.Visible = False
+    mnuReportFormats.Visible = False
+    mnuBarCode.Visible = False
+    mnuStatistics.Visible = False
+    tbrMain.Buttons("Search").Value = tbrUnpressed
+    tbrMain.Buttons("Search").Visible = False
+    tbrMain.Buttons("medtechs").Visible = False
+    tbrMain.Buttons("doctors").Visible = False
+    tbrMain.Buttons("pathologists").Visible = False
+End Sub
+
 Private Sub MDIForm_Resize()
 On Error Resume Next
     If Screen.Width <> initScreenSize Then
@@ -586,7 +640,7 @@ On Error Resume Next
 '        End If
     End If
 
-    If GetSetting("HostForms", "Forms", "Viewsearch", "0") = "1" Then
+    If GetSetting("HostForms", "Forms", "Viewsearch", "0") = "1" And Not MiddlewareMode Then
         If EnableDTP And Val(GetSetting("Lab-I", "DaTran", "DisableSearch", "0")) = 1 Then
             mnuSearch.Checked = False
             tbrMain.Buttons("Search").Value = tbrUnpressed
@@ -638,7 +692,13 @@ On Error Resume Next
 End Sub
 
 Private Sub MDIForm_Unload(Cancel As Integer)
-If MsgBox("Are you sure you want to exit from the program?", vbYesNo + vbQuestion, App.ProductName) = vbYes Then
+Dim mExit As Boolean
+If mSkipExitPrompt Then
+    mExit = True                'restarting after a mode switch: already confirmed
+Else
+    mExit = (MsgBox("Are you sure you want to exit from the program?", vbYesNo + vbQuestion, App.ProductName) = vbYes)
+End If
+If mExit Then
     Unload frmProcess
     If isDBconnected Then myConnection.Close
     Set HostSA = Nothing
@@ -708,6 +768,61 @@ CloseConnection
 GetDBSettings
 OpenConnection
 mdiMain.mnuConnServ.Visible = Not isDBconnected
+End Sub
+
+'Settings > Switch to Middleware Mode / Switch to Main Mode.
+'Saves the mode (and the Main mode Autoprocess/Autoprint, see modMain.SetMiddlewareMode),
+'then restarts Interface.exe so every menu and setting is applied cleanly.
+Private Sub mnuSwitchMode_Click()
+    SwitchModeWithRestart
+End Sub
+
+'Settings > Middleware Settings... (also Program Setup > 17 - Middleware).
+Private Sub mnuMiddleware_Click()
+    ShowMiddlewareSettings
+End Sub
+
+Public Sub ShowMiddlewareSettings()
+    MW_SwitchRequested = False
+    frmMiddleware.Show 1
+    If MW_SwitchRequested Then
+        MW_SwitchRequested = False
+        SwitchModeWithRestart
+    End If
+End Sub
+
+Public Sub SwitchModeWithRestart()
+Dim mPrompt As String
+Dim mExe As String
+On Error GoTo errFound
+    If isConnected Then
+        If MsgBox("The instrument must be disconnected before changing mode. Disconnect now?", vbQuestion + vbYesNo + vbDefaultButton2, "Change Mode") = vbYes Then
+            mnuDisconnect_Click
+        End If
+        If isConnected Then Exit Sub
+    End If
+    If MiddlewareMode Then
+        mPrompt = "Switch back to MAIN mode?" & vbCrLf & vbCrLf & _
+                  "Search, result entry, reports and printing come back, and the Autoprocess/Autoprint settings " & _
+                  "you had before Middleware mode are restored." & vbCrLf & _
+                  "Results already in the Outbox stay there and are sent the next time Middleware mode is on."
+    Else
+        mPrompt = "Switch to MIDDLEWARE mode?" & vbCrLf & vbCrLf & _
+                  "Results are only forwarded to the LIS/HIS (Lab-I\Middleware settings). Search, result entry, " & _
+                  "reports and printing are hidden. Your current Autoprocess/Autoprint settings are saved and " & _
+                  "restored when you switch back to Main mode."
+    End If
+    If MsgBox(mPrompt & vbCrLf & vbCrLf & "Lab-I will restart to apply the change.", vbQuestion + vbYesNo + vbDefaultButton2, "Change Mode") <> vbYes Then Exit Sub
+    SetMiddlewareMode Not MiddlewareMode
+    'start a new copy after this one has exited (App.PrevInstance would block an immediate start)
+    mExe = App.Path & "\" & App.EXEName & ".exe"
+    Shell Environ("ComSpec") & " /c ping -n 4 127.0.0.1 >nul & start """" """ & mExe & """", vbHide
+    mSkipExitPrompt = True
+    Unload Me
+    End
+    Exit Sub
+errFound:
+    MsgBox "Mode saved, but Lab-I could not restart by itself (" & Err.Description & "). Please close and open Lab-I.", vbOKOnly + vbExclamation, "Change Mode"
 End Sub
 
 Private Sub mnuControlPanel_Click()
